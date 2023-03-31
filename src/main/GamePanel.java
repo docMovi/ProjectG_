@@ -1,5 +1,6 @@
 package main;
 
+import entity.Enemy;
 import entity.Player;
 import tile.TileManager;
 
@@ -14,6 +15,8 @@ public class GamePanel extends JPanel implements Runnable{
     Player player = new Player(this, key);
     Camera cam = new Camera(this, -player.x + 1920 / 2, -player.y + 1080 / 2);
     TileManager tm = new TileManager(this);
+
+    Enemy enemy;
 
     int tileT = 16;
     int multiply = 5;
@@ -41,7 +44,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
         startGameThread();
         lh = new LevelHandler(this);
-        //collisionDet = new CollisionDetector(this);
+        enemy = new Enemy(this, player);
     }
 
     public void startGameThread() {

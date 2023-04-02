@@ -104,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable{
         tm.draw(g2); //dadurch kann der TileManager drawen
         lh.draw(g2); //dadurch kann der LevelHandler drawen
         player.draw(g2); //dadurch kann der Spieler (=Player) drawen
+        enemy.draw(g2);
 
         g2.translate(-cam.getX(), -cam.getY());
         //ende cam

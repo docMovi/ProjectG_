@@ -1,6 +1,7 @@
 package main;
 
 import tile.BufferdImageLoader;
+import tile.Tile;
 import tile.TileManager;
 
 import java.awt.*;
@@ -16,21 +17,23 @@ public class LevelHandler {
 
     private GamePanel gp; //Zuweisung des GamePanels
 
+    public Tile[] list;
+
 
     public LevelHandler(GamePanel gp) {
         loader = new BufferdImageLoader();
         lvl = loader.loadImage("/level/level.png"); //bindet level image ein
-        tileM = new TileManager(gp);
         this.gp = gp; //Zuweisung des GamePanels
+        tileM = gp.tm;
     }
 
 
     public void draw(Graphics2D g2) {
         int w = lvl.getWidth();
         int h = lvl.getHeight();
+        list = new Tile[w*100 + h]; //index sehr dumm gewählt aber beste option i think
 
         //loop durch das ganze bild um farben zu erkennen
-
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
 
@@ -39,15 +42,22 @@ public class LevelHandler {
                 int g = (px >> 8) & 0xff;  //bit-related -> color value in bits (kompliziert)
                 int b = (px) & 0xff;    //bit-related
 
+
                 if (r == 255 && g == 255 && b == 255) { // white --> wall
                     g2.drawImage(tileM.tiles[5].image, j * gp.tile, i * gp.tile, gp.tile, gp.tile, null);
+                    //add tile to list of tiles
+                    list[j * 100 + i] = new Tile(j, i, true); //index sehr dumm gewählt aber beste option i think
                 }
                 else if(r == 0 && g == 0 && b == 0) { //black --> grass
                     g2.drawImage(tileM.tiles[0].image, j * gp.tile, i * gp.tile, gp.tile, gp.tile,null);
+                    //add tile to list of tiles
+                    list[j * 100 + i] = new Tile(j, i, false); //index sehr dumm gewählt aber beste option i think
                 }
 
             }
         }
+
+
     }
 
 

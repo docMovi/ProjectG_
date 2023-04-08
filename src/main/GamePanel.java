@@ -2,6 +2,7 @@ package main;
 
 import entity.Enemy;
 import entity.Player;
+import tile.Tile;
 import tile.TileManager;
 
 import javax.swing.JPanel;
@@ -12,18 +13,19 @@ import java.awt.image.BufferedImage;
 public class GamePanel extends JPanel implements Runnable{
     Key key = new Key();
     Thread gameThread;
-    Player player = new Player(this, key);
-    Camera cam = new Camera(this, -player.x + 1920 / 2, -player.y + 1080 / 2);
     TileManager tm = new TileManager(this);
+    public CollisionDetector CDetector = new CollisionDetector(this, tm);
+    Player player = new Player(this, key, tm);
+    Camera cam = new Camera(this, -player.x + 1920 / 2, -player.y + 1080 / 2);
 
-    Enemy enemy;
+    Enemy enemy = new Enemy(this, player);
 
     int tileT = 16;
     int multiply = 5;
     //estimate value for tilesize on screen (for pixel art)
     public int tile = tileT * multiply;
 
-    LevelHandler lh;
+    public LevelHandler lh;
 
 
 
@@ -33,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
     int speed = 4;
     int FPS  = 60;
 
-    public CollisionDetector CDetector = new CollisionDetector(this);
+
 
 
     public GamePanel(){
@@ -44,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
         startGameThread();
         lh = new LevelHandler(this);
-        enemy = new Enemy(this, player);
+
     }
 
     public void startGameThread() {
@@ -84,10 +86,10 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
 
-
     public void update() {
         player.update();
         cam.update(player);
+        enemy.update();
     }
 
     //gibt anderen klassen die fähigkeit sprites auf den bildschirm zu projezieren
@@ -114,5 +116,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         //tmp https://www.youtube.com/watch?v=VpH33Uw-_0E&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=2
     }
+
+
 
 }

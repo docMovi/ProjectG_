@@ -12,6 +12,13 @@ public class TileManager {
     GamePanel gp;
     public Tile[] tiles; //array von allen sprites -> bilddateien
     String[] places = new String[4]; //vllt nützlich später -> dateilaufpfade als variablen
+
+
+    public Tile[] tileList;
+    public Tile[] tmp;
+    int i = 0;
+    boolean _b;
+
     public TileManager(GamePanel gp) {
         this.gp = gp; //Zuweisung des GamePanels
         tiles = new Tile[10];
@@ -50,6 +57,17 @@ public class TileManager {
         }
 
     }
+
+
+    //schaut ob tile auf der gegebenen position fest oder nicht fest ist.
+    //nimmt bezug auf levelHandler
+    public boolean GetColl(int x, int y){
+        x = x/gp.tile;
+        y = y/ gp.tile;
+        return gp.lh.list[x*100 + y].coll;
+    }
+
+
 
 
     public void draw(Graphics2D g2) {

@@ -3,6 +3,7 @@ package entity;
 import main.Camera;
 import main.GamePanel;
 import main.Key;
+import tile.TileManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,21 +14,21 @@ import java.io.IOException;
 public class Player extends Entity{
     // tmp https://www.youtube.com/watch?v=wT9uNGzMEM4&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=3
     GamePanel gp; //Zuweisung des GamePanels
-
+    TileManager tileM;
     Key key; //verbindung zum input management
 
     //int sprintSpeed; //tmp falls wir sprint einbauen sollten
 
     int speedNormal;
-    public Player(GamePanel g, Key k) {
+    public Player(GamePanel g, Key k, TileManager tileM) {
         this.gp = g;
         this.key = k;
+        this.tileM = tileM;
 
         setValues();
         getImage();
 
         collider = new Rectangle(0, 0, gp.tile - (gp.tile/8), gp.tile/2);
-
     }
     public void setValues() {
         x = 100; //startposition des Spielers: x-koordinate
@@ -63,19 +64,15 @@ public class Player extends Entity{
         //move input -> greift auf key class zu
         if(key.uppress || key.downpress || key.leftpress || key.rightpress) {
             if(key.uppress == true) {
-                y -= speed;
                 dir = "up";
             }
             else if(key.downpress) {
-                y += speed;
                 dir = "down";
             }
             else if(key.rightpress){
-                x += speed;
                 dir = "right";
             }
             else if(key.leftpress){
-                x -= speed;
                 dir = "left";
             }
 
@@ -89,11 +86,28 @@ public class Player extends Entity{
                 }
                 wait = 0;
             }
+
+            //check von collision des tiles
+            collOn = false;
+            gp.CDetector.checkTile(this);
+
+            //if collision== false dann kann der player sich bewwegen
+            if(collOn == false) {
+
+                if (dir == "up") {
+                    y -= speed;
+                } if (dir == "down") {
+                    y += speed;
+                } if (dir == "right") {
+                    x += speed;
+                } if (dir == "left") {
+                    x -= speed;
+                }
+            }
         }
 
-        collOn = false;
-        gp.CDetector.checkTile(this);
-        //gp.collisionDet.checkTile(this);
+
+
 
     }
     public void draw(Graphics2D g2) {

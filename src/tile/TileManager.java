@@ -64,7 +64,7 @@ public class TileManager {
     public boolean GetColl(int x, int y){
         x = x/gp.tile;
         y = y/ gp.tile;
-        return gp.lh.list[x*100 + y].coll;
+        return gp.lh.list[x] [y].coll;
     }
 
 

@@ -28,7 +28,7 @@ public class Player extends Entity{
         setValues();
         getImage();
 
-        collider = new Rectangle(0, 0, gp.tile - (gp.tile/8), gp.tile/2);
+        collider = new Rectangle(10, 20, 45, 50);
     }
     public void setValues() {
         x = 100; //startposition des Spielers: x-koordinate
@@ -95,21 +95,25 @@ public class Player extends Entity{
             if(collOn == false) {
 
                 if (dir == "up") {
-                    y -= speed;
-                } if (dir == "down") {
-                    y += speed;
-                } if (dir == "right") {
-                    x += speed;
-                } if (dir == "left") {
-                    x -= speed;
+                        y -= speed;
+                    }
+
+                if (dir == "down") {
+                        y += speed;
+                    }
+                if (dir == "right") {
+                        x += speed;
+                    }
+                if (dir == "left") {
+                        x -= speed;
+                    }
+
                 }
             }
-        }
+}
 
 
 
-
-    }
     public void draw(Graphics2D g2) {
         //hier wird der spieler als bild erstellt
         //spieler bild je nach richtung ändern
@@ -146,6 +150,5 @@ public class Player extends Entity{
             }
         }
         g2.drawImage(image, x, y, gp.tile, gp.tile, null);
-
     }
 }

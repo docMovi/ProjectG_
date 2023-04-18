@@ -17,7 +17,7 @@ public class LevelHandler {
 
     private GamePanel gp; //Zuweisung des GamePanels
 
-    public Tile[] list;
+    public Tile[][] list;
 
 
     public LevelHandler(GamePanel gp) {
@@ -31,7 +31,7 @@ public class LevelHandler {
     public void draw(Graphics2D g2) {
         int w = lvl.getWidth();
         int h = lvl.getHeight();
-        list = new Tile[w*100 + h]; //index sehr dumm gewählt aber beste option i think
+        list = new Tile[w] [h]; //index sehr dumm gewählt aber beste option i think
 
         //loop durch das ganze bild um farben zu erkennen
         for (int i = 0; i < h; i++) {
@@ -46,12 +46,12 @@ public class LevelHandler {
                 if (r == 255 && g == 255 && b == 255) { // white --> wall
                     g2.drawImage(tileM.tiles[5].image, j * gp.tile, i * gp.tile, gp.tile, gp.tile, null);
                     //add tile to list of tiles
-                    list[j * 100 + i] = new Tile(j, i, true); //index sehr dumm gewählt aber beste option i think
+                    list[j][i]  = new Tile(j, i, true); // COULD CAUSE LAG
                 }
                 else if(r == 0 && g == 0 && b == 0) { //black --> grass
                     g2.drawImage(tileM.tiles[0].image, j * gp.tile, i * gp.tile, gp.tile, gp.tile,null);
                     //add tile to list of tiles
-                    list[j * 100 + i] = new Tile(j, i, false); //index sehr dumm gewählt aber beste option i think
+                    list[j][i] = new Tile(j, i, false); // COULD CAUSE LAG
                 }
 
             }

@@ -46,13 +46,14 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
         startGameThread();
         lh = new LevelHandler(this);
-
     }
 
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
+
+
 
     @Override
     public void run() {
@@ -116,6 +117,7 @@ public class GamePanel extends JPanel implements Runnable{
 
         //tmp https://www.youtube.com/watch?v=VpH33Uw-_0E&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=2
     }
+
 
 
 

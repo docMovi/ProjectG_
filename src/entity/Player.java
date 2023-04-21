@@ -17,10 +17,14 @@ public class Player extends Entity{
     TileManager tileM;
     Key key; //verbindung zum input management
 
+    int standCounter = 0;
+
     //int sprintSpeed; //tmp falls wir sprint einbauen sollten
 
     int speedNormal;
     public Player(GamePanel g, Key k, TileManager tileM) {
+
+        super(g);
         this.gp = g;
         this.key = k;
         this.tileM = tileM;

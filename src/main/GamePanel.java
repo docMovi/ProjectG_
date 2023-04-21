@@ -1,6 +1,7 @@
 package main;
 
 import entity.Enemy;
+import entity.NPC;
 import entity.Player;
 import tile.Tile;
 import tile.TileManager;
@@ -19,6 +20,7 @@ public class GamePanel extends JPanel implements Runnable{
     Camera cam = new Camera(this, -player.x + 1920 / 2, -player.y + 1080 / 2);
 
     Enemy enemy = new Enemy(this, player);
+    NPC npc = new NPC(this);
 
     int tileT = 16;
     int multiply = 5;
@@ -108,6 +110,8 @@ public class GamePanel extends JPanel implements Runnable{
         lh.draw(g2); //dadurch kann der LevelHandler drawen
         player.draw(g2); //dadurch kann der Spieler (=Player) drawen
         enemy.draw(g2);
+        npc.draw(g2);
+
 
         g2.translate(-cam.getX(), -cam.getY());
         //ende cam

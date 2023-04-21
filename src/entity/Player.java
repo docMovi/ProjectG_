@@ -24,7 +24,7 @@ public class Player extends Entity{
     int speedNormal;
     public Player(GamePanel g, Key k, TileManager tileM) {
 
-        super(g);
+        //instantiates gp
         this.gp = g;
         this.key = k;
         this.tileM = tileM;

@@ -12,6 +12,8 @@ public class NPC extends Entity{
 
     Random random;
 
+    public int actionTimer;
+
     public NPC(GamePanel gp, int x, int y) {
         super(gp);
         this.gp = gp;
@@ -51,67 +53,64 @@ public class NPC extends Entity{
 
         public void setAction() {
 
-            int i = random.nextInt(100) + 1; //zahl von + x bis klammer
+            actionTimer++;
 
-            if(i <= 25) {
-                dir  = "up";
+            if(actionTimer == 180) {
+                int i = random.nextInt(100) + 1; //zahl von + x bis klammer
+
+                if(i <= 25) {
+                    dir  = "up";
+                }
+
+                if(i > 25 && i < 50) {
+                    dir  = "down";
+                }
+
+                if(i > 50 && i<75) {
+                    dir  = "left";
+                }
+
+                if(i > 75 && i <= 100) {
+                    dir  = "right";
+                }
+
+                actionTimer = 0;
             }
 
-
-            if(i > 25 && i < 50) {
-                dir  = "down";
-            }
-
-
-            if(i > 50 && i<75) {
-                dir  = "left";
-            }
-
-
-            if(i > 75 && i <= 100) {
-                dir  = "right";
-            }
         }
 
         public void update() {
 
+            setAction();
+            gp.CDetector.checkTile(this);
+            gp.CDetector.checkPlayer(this);
 
-            if(x - gp.player.x <= 10*gp.tile || y - gp.player.y <= 10*gp.tile) {
+            wait++;
+            if(wait > 10) {
+                if (num == 1) {
+                    num = 2;
+                } else if (num == 2) {
+                    num = 1;
+                }
+                wait = 0;
+            }
 
-                int j = 0;
-                int r = random.nextInt(200) + 10;
-
-
-
-
-                if (j >= r) {
-                    System.out.println("moving out!");
-                    setAction();
-                    j = 0;
+            if (collOn == false) {
+                if (dir == "up") {
+                    y -= speed;
                 }
 
-                if (j < r) {
-                    j++;
+                if (dir == "down") {
+                    y += speed;
                 }
-
-
-                if (collOn == false) {
-
-                    if (dir == "up") {
-                        y -= speed;
-                    }
-
-                    if (dir == "down") {
-                        y += speed;
-                    }
-                    if (dir == "right") {
-                        x += speed;
-                    }
-                    if (dir == "left") {
-                        x -= speed;
-                    }
+                if (dir == "right") {
+                    x += speed;
+                }
+                if (dir == "left") {
+                    x -= speed;
                 }
             }
+
     }
 
 

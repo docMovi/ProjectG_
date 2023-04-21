@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable{
     public int tile = tileT * multiply;
     public LevelHandler lh;
     public NPC npcs[] = new NPC[4];
-
+    public boolean NPCspawned;
 
     //player pos
     int playerx = 100;
@@ -46,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
         startGameThread();
         lh = new LevelHandler(this);
-        setNPC();
+
     }
 
     public void startGameThread() {
@@ -90,6 +90,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void setNPC() {
         npcs[0] = new NPC(this, 20 * tile, 12 * tile);
         System.out.println("random x: " + npcs[0].x / tile + " random y: " + npcs[0].y / tile);
+        NPCspawned = true;
     }
 
     public void update() {

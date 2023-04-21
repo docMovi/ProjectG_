@@ -20,6 +20,8 @@ public class Entity {
     public Rectangle collider;
     public boolean collOn = false;
 
+    public boolean collidable = true;
+
     public Entity(GamePanel gp) {
         this.gp = gp;
     }

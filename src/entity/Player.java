@@ -93,6 +93,12 @@ public class Player extends Entity{
             collOn = false;
             gp.CDetector.checkTile(this);
 
+            //check von collision mit npcs
+            if(gp.NPCspawned) {
+                int npcI = gp.CDetector.checkEntity(this, gp.npcs);
+                interactNPC(npcI);
+            }
+
             //if collision== false dann kann der player sich bewwegen
             if(collOn == false) {
 
@@ -111,9 +117,23 @@ public class Player extends Entity{
                     }
 
                 }
+
+
+            //Tmp
+            if(key.npressed) {
+                gp.setNPC();
             }
+        }
 }
 
+
+    public void interactNPC(int i) {
+        if(i != 999) {
+            System.out.println("Hey here is an NPC!");
+        } else {
+            System.out.println("error code 999");
+        }
+    }
 
 
     public void draw(Graphics2D g2) {

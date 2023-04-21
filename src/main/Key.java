@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 //Klasse für den input des Spielers -> hier wird für tastenschläge gehört und diese dann weiterverwertet
 public class Key implements KeyListener {
 
-    public boolean uppress, downpress, leftpress, rightpress, shift;
+    public boolean uppress, downpress, leftpress, rightpress, npressed;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -26,9 +26,8 @@ public class Key implements KeyListener {
         }if(code == KeyEvent.VK_D) {
             rightpress = true;
         }
-
-        if(code == 16) {
-            shift = true;
+        if(code == KeyEvent.VK_N) {
+            npressed = true;
         }
 
     }
@@ -45,8 +44,8 @@ public class Key implements KeyListener {
             leftpress = false;
         }if(code == KeyEvent.VK_D) {
             rightpress = false;
-        }if(code == 16) {
-            shift = false;
+        }if(code == KeyEvent.VK_N) {
+            npressed = false;
         }
     }
 }

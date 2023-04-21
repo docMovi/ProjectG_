@@ -1,6 +1,7 @@
 package main;
 
 import entity.Enemy;
+import entity.Entity;
 import entity.NPC;
 import entity.Player;
 import tile.Tile;
@@ -16,19 +17,16 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;
     TileManager tm = new TileManager(this);
     public CollisionDetector CDetector = new CollisionDetector(this, tm);
-    Player player = new Player(this, key, tm);
+    public Player player = new Player(this, key, tm);
     Camera cam = new Camera(this, -player.x + 1920 / 2, -player.y + 1080 / 2);
 
     Enemy enemy = new Enemy(this, player);
-    NPC npc = new NPC(this);
-
     int tileT = 16;
     int multiply = 5;
     //estimate value for tilesize on screen (for pixel art)
     public int tile = tileT * multiply;
-
     public LevelHandler lh;
-
+    public NPC npcs[] = new NPC[4];
 
 
     //player pos
@@ -48,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
         startGameThread();
         lh = new LevelHandler(this);
+        setNPC();
     }
 
     public void startGameThread() {
@@ -88,11 +87,20 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    public void setNPC() {
+        npcs[0] = new NPC(this, 20 * tile, 12 * tile);
+        System.out.println("random x: " + npcs[0].x / tile + " random y: " + npcs[0].y / tile);
+    }
 
     public void update() {
         player.update();
         cam.update(player);
         enemy.update();
+        for(int i = 0; i <  npcs.length; i++) {
+            if(npcs[i] != null) {
+                npcs[i].update();
+            }
+        }
     }
 
     //gibt anderen klassen die fähigkeit sprites auf den bildschirm zu projezieren
@@ -110,7 +118,14 @@ public class GamePanel extends JPanel implements Runnable{
         lh.draw(g2); //dadurch kann der LevelHandler drawen
         player.draw(g2); //dadurch kann der Spieler (=Player) drawen
         enemy.draw(g2);
-        npc.draw(g2);
+
+
+        for(int i = 0; i <  npcs.length; i++) {
+            if(npcs[i] != null) {
+                npcs[i].draw(g2);
+            }
+        }
+
 
 
         g2.translate(-cam.getX(), -cam.getY());

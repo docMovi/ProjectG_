@@ -6,29 +6,40 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 public class NPC extends Entity{
 
+    Random random;
 
-    public NPC(GamePanel gp) {
+    public NPC(GamePanel gp, int x, int y) {
+        super(gp);
         this.gp = gp;
 
         dir = "down";
-        speed = 2;
+        speed = 1;
         getImage();
+
+        this.x = x;
+        this.y = y;
+
+        random = new Random();
+
+        collider = new Rectangle(10, 20, 45, 50);
     }
+
 
     public void getImage() {
         try {
             //liest files in res/player folder um bilder zu initialisieren
-            up1 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/up1.png"));
-            up2 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/up2.png"));
-            d1 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/down1.png"));
-            d2 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/down2.png"));
-            r1 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/right1.png"));
-            r2 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/right2.png"));
-            l1 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/left1.png"));
-            l2 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/left2.png"));
+            up1 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/up1.png"));  //tmp file existiert noch nicht
+            up2 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/up2.png"));  //tmp file existiert noch nicht
+            d1 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/down1.png"));  //tmp file existiert noch nicht
+            d2 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/down2.png"));  //tmp file existiert noch nicht
+            r1 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/right1.png"));  //tmp file existiert noch nicht
+            r2 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/right2.png"));  //tmp file existiert noch nicht
+            l1 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/left1.png"));  //tmp file existiert noch nicht
+            l2 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/left2.png"));  //tmp file existiert noch nicht
 
             // tmp https://www.youtube.com/watch?v=wT9uNGzMEM4&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=4
 
@@ -38,9 +49,76 @@ public class NPC extends Entity{
 
     }
 
-    public void draw(Graphics2D g2) {
-        //hier wird der spieler als bild erstellt
-        //spieler bild je nach richtung ändern
+        public void setAction() {
+
+            int i = random.nextInt(100) + 1; //zahl von + x bis klammer
+
+            if(i <= 25) {
+                dir  = "up";
+            }
+
+
+            if(i > 25 && i < 50) {
+                dir  = "down";
+            }
+
+
+            if(i > 50 && i<75) {
+                dir  = "left";
+            }
+
+
+            if(i > 75 && i <= 100) {
+                dir  = "right";
+            }
+        }
+
+        public void update() {
+
+
+            if(x - gp.player.x <= 10*gp.tile || y - gp.player.y <= 10*gp.tile) {
+
+                int j = 0;
+                int r = random.nextInt(200) + 10;
+
+
+
+
+                if (j >= r) {
+                    System.out.println("moving out!");
+                    setAction();
+                    j = 0;
+                }
+
+                if (j < r) {
+                    j++;
+                }
+
+
+                if (collOn == false) {
+
+                    if (dir == "up") {
+                        y -= speed;
+                    }
+
+                    if (dir == "down") {
+                        y += speed;
+                    }
+                    if (dir == "right") {
+                        x += speed;
+                    }
+                    if (dir == "left") {
+                        x -= speed;
+                    }
+                }
+            }
+    }
+
+
+
+        public void draw(Graphics2D g2) {
+        //hier wird der npc als bild erstellt
+        //spieler npc je nach richtung ändern
 
         BufferedImage image = null;
 
@@ -75,6 +153,7 @@ public class NPC extends Entity{
         }
         g2.drawImage(image, x, y, gp.tile, gp.tile, null);
     }
+
 }
 
 

@@ -13,19 +13,17 @@ import java.io.IOException;
 //Spieler Klasse -> greift auf input management zu und dient zur spieler projektzierung
 public class Player extends Entity{
     // tmp https://www.youtube.com/watch?v=wT9uNGzMEM4&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=3
-    GamePanel gp; //Zuweisung des GamePanels
     TileManager tileM;
     Key key; //verbindung zum input management
 
     int standCounter = 0;
-
     //int sprintSpeed; //tmp falls wir sprint einbauen sollten
 
     int speedNormal;
     public Player(GamePanel g, Key k, TileManager tileM) {
-
-        //instantiates gp
+        super(g);
         this.gp = g;
+
         this.key = k;
         this.tileM = tileM;
 

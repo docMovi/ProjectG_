@@ -32,30 +32,41 @@ public class CollisionDetector {
         if(entity.dir == "up"){
             entity.collOn = false;
             eTopRow = (eTopY - entity.speed)/ gp.tile;
-            if(gp.lh.list[eLeftCol][eTopRow].coll || gp.lh.list[eRightCol][eTopRow].coll){
-                entity.collOn = true;
+            if(gp.lh.list != null || gp.lh.list != null){
+                if(gp.lh.list[eLeftCol][eTopRow].coll || gp.lh.list[eRightCol][eTopRow].coll){
+                    entity.collOn = true;
+                }
             }
+
         }if(entity.dir == "right"){
             entity.collOn = false;
             eRightCol = (eRightX + entity.speed)/ gp.tile;
-            if(gp.lh.list[eRightCol][eTopRow].coll || gp.lh.list[eRightCol][eBottRow].coll){
-                entity.collOn = true;
-                System.out.println("collider righ!");
+            if(gp.lh.list != null || gp.lh.list != null){
+                if(gp.lh.list[eRightCol][eTopRow].coll || gp.lh.list[eRightCol][eBottRow].coll){
+                    entity.collOn = true;
+                    System.out.println("collider righ!");
+                }
             }
 
         }if(entity.dir == "left"){
             entity.collOn = false;
             eLeftCol = (eLeftX - entity.speed)/ gp.tile;
-            if(gp.lh.list[eLeftCol][eTopRow].coll || gp.lh.list[eLeftCol][eBottRow].coll){
-                entity.collOn = true;
-                System.out.println("collider left!");
+            if(gp.lh.list != null || gp.lh.list != null) {
+                if(gp.lh.list[eLeftCol][eTopRow].coll || gp.lh.list[eLeftCol][eBottRow].coll){
+                    entity.collOn = true;
+                    System.out.println("collider left!");
+                }
             }
+
         }if(entity.dir == "down"){
             entity.collOn = false;
             eBottRow = (eBottY + entity.speed)/ gp.tile;
-            if(gp.lh.list[eLeftCol][eBottRow].coll || gp.lh.list[eRightCol][eBottRow].coll){
-                entity.collOn = true;
+            if(gp.lh.list != null || gp.lh.list != null){
+                if(gp.lh.list[eLeftCol][eBottRow].coll || gp.lh.list[eRightCol][eBottRow].coll){
+                    entity.collOn = true;
+                }
             }
+
         }
 
         //getting collider of pos

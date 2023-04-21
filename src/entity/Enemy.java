@@ -16,6 +16,7 @@ public class Enemy extends Entity {
     Player player;
 
     public Enemy(GamePanel gp, Player player) {
+        super(gp);
         this.gp = gp;
         this.player = player;
 

@@ -16,8 +16,10 @@ public class GamePanel extends JPanel implements Runnable{
     Key key = new Key(this);
     Thread gameThread;
     TileManager tm = new TileManager(this);
-    public CollisionDetector CDetector = new CollisionDetector(this, tm);
+
     public Player player = new Player(this, key, tm);
+    public LevelHandler lh = new LevelHandler(this);;
+    public CollisionDetector CDetector = new CollisionDetector(this, tm);
     Camera cam = new Camera(this, -player.x + 1920 / 2, -player.y + 1080 / 2);
 
     Enemy enemy = new Enemy(this, player);
@@ -25,7 +27,6 @@ public class GamePanel extends JPanel implements Runnable{
     int multiply = 5;
     //estimate value for tilesize on screen (for pixel art)
     public int tile = tileT * multiply;
-    public LevelHandler lh;
     public NPC npcs[] = new NPC[4];
     public boolean NPCspawned;
 
@@ -51,7 +52,6 @@ public class GamePanel extends JPanel implements Runnable{
         this.setPreferredSize(new Dimension(512, 328));
         this.addKeyListener(key);
         this.setFocusable(true);
-        lh = new LevelHandler(this);
         startGameThread();
         Start();
     }
@@ -134,7 +134,15 @@ public class GamePanel extends JPanel implements Runnable{
 
 
         tm.draw(g2); //dadurch kann der TileManager drawen
-        lh.draw(g2); //dadurch kann der LevelHandler drawen
+
+        int n = 0;
+        if(n == 0) {
+            lh.draw(g2); //dadurch kann der LevelHandler drawen
+            n++;
+        }if(n == 60) {
+            n = 0;
+        }
+
         player.draw(g2); //dadurch kann der Spieler (=Player) drawen
         enemy.draw(g2);
 

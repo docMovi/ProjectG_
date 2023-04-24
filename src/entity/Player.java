@@ -30,11 +30,10 @@ public class Player extends Entity{
         setValues();
         getImage();
 
-        collider = new Rectangle(10, 20, 45, 50);
+        collider = new Rectangle( x,  y, 45, 50);
     }
     public void setValues() {
-        x = 100; //startposition des Spielers: x-koordinate
-        y = 100; //startposition des Spielers: y-koordinate
+
         speedNormal = 6; //spieler geschwindigkeit
         speed = speedNormal; //tmp
         dir = "down"; //start richtung des Spielers: nach unten
@@ -61,8 +60,19 @@ public class Player extends Entity{
             e.printStackTrace(); //Error Prävention
         }
     }
-    public void update() {
 
+    boolean executed = false;
+    public void setPos(int x, int y) {
+
+        if(!executed) {
+            executed = true;
+            this.x = x;
+            this.y = y;
+            System.out.println("been there, done that");
+        }
+    }
+
+    public void update() {
 
         //move input -> greift auf key class zu
         if(key.uppress || key.downpress || key.leftpress || key.rightpress) {
@@ -186,6 +196,6 @@ public class Player extends Entity{
                 image = l2;
             }
         }
-        g2.drawImage(image, x, y, gp.tile, gp.tile, null);
+            g2.drawImage(image, x, y, gp.tile, gp.tile, null);
     }
 }

@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
 
 //klasse die basically alles managed vor allem aber den screen und was darauf muss
 public class GamePanel extends JPanel implements Runnable{
-    Key key = new Key();
+    Key key = new Key(this);
     Thread gameThread;
     TileManager tm = new TileManager(this);
     public CollisionDetector CDetector = new CollisionDetector(this, tm);
@@ -35,6 +35,13 @@ public class GamePanel extends JPanel implements Runnable{
     int speed = 4;
     int FPS  = 60;
 
+    public UI ui = new UI(this);
+
+    //states vom game
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
+
 
 
 
@@ -44,9 +51,14 @@ public class GamePanel extends JPanel implements Runnable{
         this.setPreferredSize(new Dimension(512, 328));
         this.addKeyListener(key);
         this.setFocusable(true);
-        startGameThread();
         lh = new LevelHandler(this);
+        startGameThread();
+        Start();
+    }
 
+    public void Start() {
+        gameState = playState;
+        ui.showMessage("Drücke W, A, S oder D um dich zu bewegen!", 5);
     }
 
     public void startGameThread() {
@@ -94,13 +106,19 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
-        player.update();
-        cam.update(player);
-        enemy.update();
-        for(int i = 0; i <  npcs.length; i++) {
-            if(npcs[i] != null) {
-                npcs[i].update();
+        if(gameState == playState) {
+            player.update();
+            cam.update(player);
+            enemy.update();
+            for(int i = 0; i <  npcs.length; i++) {
+                if(npcs[i] != null) {
+                    npcs[i].update();
+                }
             }
+
+        }
+        if(gameState == pauseState) {
+
         }
     }
 
@@ -127,10 +145,10 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
 
-
-
         g2.translate(-cam.getX(), -cam.getY());
         //ende cam
+
+        ui.draw(g2); //hier wird die UI gedrawt -> außerhalb des translates da es sich unabhängig von der kamera befindet
 
         //memory saving ig
         g2.dispose();

@@ -39,8 +39,9 @@ public class Player extends Entity{
         speed = speedNormal; //tmp
         dir = "down"; //start richtung des Spielers: nach unten
         //sprintSpeed = 8; //tmp falls wir sprint einbauen sollten
-
     }
+
+
 
     public void getImage() {
         try {
@@ -124,14 +125,28 @@ public class Player extends Entity{
                 gp.setNPC();
             }
         }
+
 }
 
+
+    public int checkPos(String coordinate, int number) {
+        int value = 0;
+
+        if(coordinate == "x") {
+            if(x / gp.tile == number) {
+                value = 1;
+            }
+        }else if (coordinate == "y") {
+            if(y / gp.tile == number) {
+                value = 1;
+            }
+        }
+        return value;
+    }
 
     public void interactNPC(int i) {
         if(i != 999) {
             System.out.println("Hey here is an NPC!");
-        } else {
-            System.out.println("error code 999");
         }
     }
 

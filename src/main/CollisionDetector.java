@@ -15,7 +15,6 @@ public class CollisionDetector {
 
     public void checkTile(Entity entity) {
         //check ob nächstes Tile collider hat oder nicht
-
         //berechnung für 'nächsten' tile player moves to
         int eLeftX = entity.x + entity.collider.x;
         int eRightX = entity.x + entity.collider.x + entity.collider.width;
@@ -28,16 +27,14 @@ public class CollisionDetector {
         int eBottRow = eBottY/ gp.tile;
 
         if(entity.dir == "up"){
-            entity.collOn = false;
             eTopRow = (eTopY - entity.speed)/ gp.tile;
-            if(gp.lh.list[eLeftCol][eTopRow] != null || gp.lh.list[eRightCol][eTopRow] != null){
-                if(gp.lh.list[eLeftCol][eTopRow].coll || gp.lh.list[eRightCol][eTopRow].coll){
+
+            if(gp.lh.list[eLeftCol][eTopRow].coll || gp.lh.list[eRightCol][eTopRow].coll){
                     entity.collOn = true;
                 }
-            }
+
 
         }if(entity.dir == "right"){
-            entity.collOn = false;
             eRightCol = (eRightX + entity.speed)/ gp.tile;
             if(gp.lh.list[eRightCol][eTopRow] != null || gp.lh.list[eRightCol][eBottRow] != null){
                 if(gp.lh.list[eRightCol][eTopRow].coll || gp.lh.list[eRightCol][eBottRow].coll){
@@ -47,7 +44,6 @@ public class CollisionDetector {
             }
 
         }if(entity.dir == "left"){
-            entity.collOn = false;
             eLeftCol = (eLeftX - entity.speed)/ gp.tile;
             if(gp.lh.list[eLeftCol][eTopRow] != null || gp.lh.list[eLeftCol][eBottRow] != null) {
                 if(gp.lh.list[eLeftCol][eTopRow].coll || gp.lh.list[eLeftCol][eBottRow].coll){
@@ -57,7 +53,6 @@ public class CollisionDetector {
             }
 
         }if(entity.dir == "down"){
-            entity.collOn = false;
             eBottRow = (eBottY + entity.speed)/ gp.tile;
             if(gp.lh.list[eLeftCol][eBottRow] != null || gp.lh.list[eRightCol][eBottRow] != null){
                 if(gp.lh.list[eLeftCol][eBottRow].coll || gp.lh.list[eRightCol][eBottRow].coll){
@@ -89,7 +84,6 @@ public class CollisionDetector {
                 other[i].collider.y = other[i].y + other[i].collider.y;
 
                 if (entity.dir == "up") {
-                    entity.collOn = false;
                     entity.collider.y -= entity.speed;
                     if (entity.collider.intersects(other[i].collider)) {
                         if (other[i].collidable) {
@@ -100,7 +94,6 @@ public class CollisionDetector {
 
                 }
                 if (entity.dir == "right") {
-                    entity.collOn = false;
                     entity.collider.x += entity.speed;
                     if (entity.collider.intersects(other[i].collider)) {
                         if (other[i].collidable) {
@@ -111,7 +104,6 @@ public class CollisionDetector {
 
                 }
                 if (entity.dir == "left") {
-                    entity.collOn = false;
                     entity.collider.x -= entity.speed;
                     if (entity.collider.intersects(other[i].collider)) {
                         if (other[i].collidable) {
@@ -122,7 +114,6 @@ public class CollisionDetector {
 
                 }
                 if (entity.dir == "down") {
-                    entity.collOn = false;
                     entity.collider.y += entity.speed;
                     if (entity.collider.intersects(other[i].collider)) {
                         if (other[i].collidable) {
@@ -158,7 +149,6 @@ public class CollisionDetector {
         gp.player.collider.y = gp.player.y + gp.player.collider.y;
 
         if (entity.dir == "up") {
-            entity.collOn = false;
             entity.collider.y -= entity.speed;
             if (entity.collider.intersects(gp.player.collider)) {
                     entity.collOn = true;
@@ -166,7 +156,6 @@ public class CollisionDetector {
 
         }
         if (entity.dir == "right") {
-            entity.collOn = false;
             entity.collider.x += entity.speed;
             if (entity.collider.intersects(gp.player.collider)) {
                     entity.collOn = true;
@@ -174,7 +163,6 @@ public class CollisionDetector {
 
         }
         if (entity.dir == "left") {
-            entity.collOn = false;
             entity.collider.x -= entity.speed;
             if (entity.collider.intersects(gp.player.collider)) {
                     entity.collOn = true;
@@ -182,7 +170,6 @@ public class CollisionDetector {
 
         }
         if (entity.dir == "down") {
-            entity.collOn = false;
             entity.collider.y += entity.speed;
             if (entity.collider.intersects(gp.player.collider)) {
                     entity.collOn = true;
@@ -195,5 +182,6 @@ public class CollisionDetector {
         gp.player.collider.x = otherXDefault;
         gp.player.collider.y = otherYDefault;
     }
+
 
 }

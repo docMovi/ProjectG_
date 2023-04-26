@@ -1,6 +1,7 @@
 package entity;
 
 import main.Camera;
+import main.CollisionDetector;
 import main.GamePanel;
 import main.Key;
 import tile.TileManager;
@@ -30,7 +31,7 @@ public class Player extends Entity{
         setValues();
         getImage();
 
-        collider = new Rectangle( x,  y, 45, 50);
+        collider = new Rectangle( x + 20,  y + 20, 45, 50);
     }
     public void setValues() {
 
@@ -74,8 +75,10 @@ public class Player extends Entity{
 
     public void update() {
 
+
         //move input -> greift auf key class zu
         if(key.uppress || key.downpress || key.leftpress || key.rightpress) {
+
             if(key.uppress == true) {
                 dir = "up";
             }
@@ -104,10 +107,17 @@ public class Player extends Entity{
             collOn = false;
             gp.CDetector.checkTile(this);
 
+
+
             //check von collision mit npcs
             if(gp.NPCspawned) {
                 int npcI = gp.CDetector.checkEntity(this, gp.npcs);
                 interactNPC(npcI);
+            } else {
+                if(checkPos("x", 12) == 1) {
+                    System.out.println("hit 12");
+                    gp.setNPC();
+                }
             }
 
             //if collision== false dann kann der player sich bewwegen
@@ -129,11 +139,6 @@ public class Player extends Entity{
 
                 }
 
-
-            //Tmp
-            if(key.npressed) {
-                gp.setNPC();
-            }
         }
 
 }

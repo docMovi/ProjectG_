@@ -13,14 +13,13 @@ public class NPC extends Entity{
     Random random;
 
     public int actionTimer;
+    public BufferedImage[] images;
 
-    public NPC(GamePanel gp, int x, int y) {
+    public NPC(GamePanel gp) {
         super(gp);
-        this.gp = gp;
 
         dir = "down";
         speed = 1;
-        getImage();
 
         this.x = x;
         this.y = y;
@@ -28,27 +27,23 @@ public class NPC extends Entity{
         random = new Random();
 
         collider = new Rectangle(10, 20, 45, 50);
+
+        images = new BufferedImage[8];
+
     }
 
 
-    public void getImage() {
+
+    public BufferedImage GetImage(String direction){
+        BufferedImage img = null;
+
         try {
-            //liest files in res/player folder um bilder zu initialisieren
-            up1 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/up1.png"));  //tmp file existiert noch nicht
-            up2 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/up2.png"));  //tmp file existiert noch nicht
-            d1 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/down1.png"));  //tmp file existiert noch nicht
-            d2 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/down2.png"));  //tmp file existiert noch nicht
-            r1 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/right1.png"));  //tmp file existiert noch nicht
-            r2 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/right2.png"));  //tmp file existiert noch nicht
-            l1 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/left1.png"));  //tmp file existiert noch nicht
-            l2 =  ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/left2.png"));  //tmp file existiert noch nicht
-
-            // tmp https://www.youtube.com/watch?v=wT9uNGzMEM4&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=4
-
-        }catch (IOException e){
+            img = ImageIO.read(getClass().getClassLoader().getResourceAsStream(direction));
+        } catch (IOException e) {
 
         }
 
+        return img;
     }
 
         public void setAction() {
@@ -109,6 +104,9 @@ public class NPC extends Entity{
                 if (dir == "left") {
                     x -= speed;
                 }
+            } else {
+                setAction();
+                collOn = false;
             }
 
     }

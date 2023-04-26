@@ -1,15 +1,12 @@
 package main;
 
 import entity.Enemy;
-import entity.Entity;
 import entity.NPC;
 import entity.Player;
-import tile.Tile;
 import tile.TileManager;
 
 import javax.swing.JPanel;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 //klasse die basically alles managed vor allem aber den screen und was darauf muss
 public class GamePanel extends JPanel implements Runnable{
@@ -22,7 +19,6 @@ public class GamePanel extends JPanel implements Runnable{
     public CollisionDetector CDetector = new CollisionDetector(this, tm);
     Camera cam = new Camera(this, -player.x + 1920 / 2, -player.y + 1080 / 2);
 
-    Enemy enemy = new Enemy(this, player);
     int tileT = 16;
     int multiply = 5;
     //estimate value for tilesize on screen (for pixel art)
@@ -100,7 +96,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void setNPC() {
-        npcs[0] = new NPC(this, 20 * tile, 12 * tile);
+        npcs[0] = new Enemy(this, 12, 14);
         System.out.println("random x: " + npcs[0].x / tile + " random y: " + npcs[0].y / tile);
         NPCspawned = true;
     }
@@ -109,7 +105,6 @@ public class GamePanel extends JPanel implements Runnable{
         if(gameState == playState) {
             player.update();
             cam.update(player);
-            enemy.update();
             for(int i = 0; i <  npcs.length; i++) {
                 if(npcs[i] != null) {
                     npcs[i].update();
@@ -144,8 +139,6 @@ public class GamePanel extends JPanel implements Runnable{
         }
 
         player.draw(g2); //dadurch kann der Spieler (=Player) drawen
-        enemy.draw(g2);
-
 
         for(int i = 0; i <  npcs.length; i++) {
             if(npcs[i] != null) {

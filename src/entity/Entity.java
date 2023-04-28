@@ -19,7 +19,8 @@ public class Entity {
     public int num = 1;
     public Rectangle collider;
     public boolean collOn = false;
-
+    public boolean invincible = false;
+    public int invincCounter;
     public boolean collidable = true;
 
     public Entity(GamePanel gp) {

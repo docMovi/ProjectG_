@@ -1,6 +1,7 @@
 package main;
 
 import entity.Entity;
+import tile.Tile;
 import tile.TileManager;
 
 //class to handle collision detection
@@ -12,6 +13,7 @@ public class CollisionDetector {
         this.gp = gp; //initialiserung von konstruktor variabeln
         this.tm = tm;
     }
+
 
     public void checkTile(Entity entity) {
         //check ob nächstes Tile collider hat oder nicht
@@ -29,35 +31,45 @@ public class CollisionDetector {
         if(entity.dir == "up"){
             eTopRow = (eTopY - entity.speed)/ gp.tile;
 
-            if(gp.lh.list[eLeftCol][eTopRow].coll || gp.lh.list[eRightCol][eTopRow].coll){
+            if(gp.lh.list2[eLeftCol][eTopRow] != null || gp.lh.list2[eRightCol][eTopRow] != null) {
+                if (gp.lh.list2[eLeftCol][eTopRow].coll || gp.lh.list2[eRightCol][eTopRow].coll) {
                     entity.collOn = true;
                 }
+            } else {
+                System.out.println("Error Code 929");
+            }
 
 
         }if(entity.dir == "right"){
             eRightCol = (eRightX + entity.speed)/ gp.tile;
-            if(gp.lh.list[eRightCol][eTopRow] != null || gp.lh.list[eRightCol][eBottRow] != null){
-                if(gp.lh.list[eRightCol][eTopRow].coll || gp.lh.list[eRightCol][eBottRow].coll){
+            if(gp.lh.list2[eRightCol][eTopRow] != null || gp.lh.list2[eRightCol][eBottRow] != null ) {
+                if (gp.lh.list2[eRightCol][eTopRow].coll || gp.lh.list2[eRightCol][eBottRow].coll) {
                     entity.collOn = true;
                     System.out.println("collider righ!");
                 }
+            }else {
+                System.out.println("Error Code 929");
             }
 
         }if(entity.dir == "left"){
             eLeftCol = (eLeftX - entity.speed)/ gp.tile;
-            if(gp.lh.list[eLeftCol][eTopRow] != null || gp.lh.list[eLeftCol][eBottRow] != null) {
-                if(gp.lh.list[eLeftCol][eTopRow].coll || gp.lh.list[eLeftCol][eBottRow].coll){
+            if(gp.lh.list2[eLeftCol][eTopRow] != null || gp.lh.list2[eLeftCol][eBottRow] != null || gp.lh.list2[eRightCol][eBottRow] != null) {
+                if(gp.lh.list2[eLeftCol][eTopRow].coll || gp.lh.list2[eLeftCol][eBottRow].coll){
                     entity.collOn = true;
                     System.out.println("collider left!");
                 }
+            } else {
+                System.out.println("Error Code 929");
             }
 
         }if(entity.dir == "down"){
             eBottRow = (eBottY + entity.speed)/ gp.tile;
-            if(gp.lh.list[eLeftCol][eBottRow] != null || gp.lh.list[eRightCol][eBottRow] != null){
-                if(gp.lh.list[eLeftCol][eBottRow].coll || gp.lh.list[eRightCol][eBottRow].coll){
+            if(gp.lh.list2[eLeftCol][eBottRow] != null || gp.lh.list2[eRightCol][eBottRow] != null){
+                if(gp.lh.list2[eLeftCol][eBottRow].coll || gp.lh.list2[eRightCol][eBottRow].coll){
                     entity.collOn = true;
                 }
+            }else {
+                System.out.println("Error Code 929");
             }
 
         }
@@ -135,7 +147,10 @@ public class CollisionDetector {
         return index;
     }
 
-    public void checkPlayer(Entity entity) {
+    public boolean checkPlayer(Entity entity) {
+
+        boolean contactPlayer = false;
+
         int xDefault = entity.collider.x;
         int yDefault = entity.collider.y;
 
@@ -150,37 +165,28 @@ public class CollisionDetector {
 
         if (entity.dir == "up") {
             entity.collider.y -= entity.speed;
-            if (entity.collider.intersects(gp.player.collider)) {
-                    entity.collOn = true;
-            }
-
         }
         if (entity.dir == "right") {
             entity.collider.x += entity.speed;
-            if (entity.collider.intersects(gp.player.collider)) {
-                    entity.collOn = true;
-            }
-
         }
         if (entity.dir == "left") {
             entity.collider.x -= entity.speed;
-            if (entity.collider.intersects(gp.player.collider)) {
-                    entity.collOn = true;
-            }
-
         }
         if (entity.dir == "down") {
             entity.collider.y += entity.speed;
-            if (entity.collider.intersects(gp.player.collider)) {
-                    entity.collOn = true;
-            }
+        }
 
+        if (entity.collider.intersects(gp.player.collider)) {
+            entity.collOn = true;
+            contactPlayer = true;
         }
         entity.collider.x = xDefault;
         entity.collider.y = yDefault;
 
         gp.player.collider.x = otherXDefault;
         gp.player.collider.y = otherYDefault;
+
+        return contactPlayer;
     }
 
 

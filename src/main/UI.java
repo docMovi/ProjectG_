@@ -35,6 +35,8 @@ public class UI {
         g2.setFont(arial40);
         g2.setColor(Color.lightGray);
         g2.drawString("x: " + gp.player.x / gp.tile, 50, 50);
+        g2.drawString("invincible: " + gp.player.invincCounter, 50, 90);
+
 
         //message system
         if(messageOn) {

@@ -1,7 +1,5 @@
 package entity;
 
-import main.Camera;
-import main.CollisionDetector;
 import main.GamePanel;
 import main.Key;
 import tile.TileManager;
@@ -73,6 +71,17 @@ public class Player extends Entity{
         }
     }
 
+    public void collEnemy(int i){
+        if(i != 999) {
+            if(invincible == false) {
+                //theoretisch leben abzug
+                gp.ui.showMessage("-20", 2);
+                invincible = true;
+            }
+
+        }
+    }
+
     public void update() {
 
 
@@ -111,7 +120,7 @@ public class Player extends Entity{
 
             //check von collision mit npcs
             if(gp.NPCspawned) {
-                int npcI = gp.CDetector.checkEntity(this, gp.npcs);
+                int npcI = gp.CDetector.checkEntity(this, gp.entities);
                 interactNPC(npcI);
             } else {
                 if(checkPos("x", 12) == 1) {
@@ -141,6 +150,14 @@ public class Player extends Entity{
 
         }
 
+        if(invincible) {
+            invincCounter++;
+            if(invincCounter > 90) {
+                invincible = false;
+                invincCounter = 0;
+            }
+        }
+
 }
 
 
@@ -161,7 +178,7 @@ public class Player extends Entity{
 
     public void interactNPC(int i) {
         if(i != 999) {
-            System.out.println("Hey here is an NPC!");
+            collEnemy(i);
         }
     }
 
@@ -201,6 +218,12 @@ public class Player extends Entity{
                 image = l2;
             }
         }
-            g2.drawImage(image, x, y, gp.tile, gp.tile, null);
+
+        if(invincible) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+        }
+        g2.drawImage(image, x, y, gp.tile, gp.tile, null);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
     }
 }

@@ -20,6 +20,7 @@ public class Enemy extends NPC {
 
         this.x = x * gp.tile;
         this.y = y * gp.tile;
+        NpcType = 3;
     }
 
     private void setValues() {
@@ -39,6 +40,10 @@ public class Enemy extends NPC {
         }
 
         System.out.println("Im an enemy");
+    }
+
+    public void fakeUpdate() {
+
     }
 
 

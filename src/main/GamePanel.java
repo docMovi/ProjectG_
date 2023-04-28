@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements Runnable{
     int multiply = 5;
     //estimate value for tilesize on screen (for pixel art)
     public int tile = tileT * multiply;
-    public NPC npcs[] = new NPC[4];
+    public NPC entities[] = new NPC[4];
     public boolean NPCspawned;
 
     //player pos
@@ -96,18 +96,20 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void setNPC() {
-        npcs[0] = new Enemy(this, 12, 14);
-        System.out.println("random x: " + npcs[0].x / tile + " random y: " + npcs[0].y / tile);
+        entities[0] = new Enemy(this, 12, 14);
+        System.out.println("random x: " + entities[0].x / tile + " random y: " + entities[0].y / tile);
         NPCspawned = true;
     }
+
+
 
     public void update() {
         if(gameState == playState) {
             player.update();
             cam.update(player);
-            for(int i = 0; i <  npcs.length; i++) {
-                if(npcs[i] != null) {
-                    npcs[i].update();
+            for(int i = 0; i <  entities.length; i++) {
+                if(entities[i] != null) {
+                    entities[i].update();
                 }
             }
 
@@ -140,9 +142,9 @@ public class GamePanel extends JPanel implements Runnable{
 
         player.draw(g2); //dadurch kann der Spieler (=Player) drawen
 
-        for(int i = 0; i <  npcs.length; i++) {
-            if(npcs[i] != null) {
-                npcs[i].draw(g2);
+        for(int i = 0; i <  entities.length; i++) {
+            if(entities[i] != null) {
+                entities[i].draw(g2);
             }
         }
 

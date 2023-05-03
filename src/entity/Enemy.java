@@ -21,6 +21,7 @@ public class Enemy extends NPC {
         this.x = x * gp.tile;
         this.y = y * gp.tile;
         NpcType = 3;
+        hp = 3;
     }
 
     private void setValues() {
@@ -36,13 +37,66 @@ public class Enemy extends NPC {
             r2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/EnemySmallGoblin/right2.png"));
             l1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/EnemySmallGoblin/left1.png"));
             l2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/EnemySmallGoblin/left2.png"));
+
+            dying1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/EnemySmallGoblin/dying1.png"));
+            dying2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/EnemySmallGoblin/dying2.png"));
+            dying3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/EnemySmallGoblin/dying3.png"));
+            dying4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/EnemySmallGoblin/dying4.png"));
+            dying5 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("npc/EnemySmallGoblin/dying5.png"));
         } catch (IOException e) {
         }
 
         System.out.println("Im an enemy");
     }
 
+    @Override
+    public void takeDamage() {
+        gp.ui.showMessage("10", 1);
+        if(invincible!=true) {
+            hp--;
+        }
+        invincible = true;
+    }
+
+    int deathAnimCounter;
+
+    @Override
     public void fakeUpdate() {
+        if(hp <= 0) {
+            dead = true;
+        }
+
+        if(invincible) {
+            invincCounter++;
+            if(invincCounter > 90) {
+                invincible = false;
+                invincCounter = 0;
+            }
+        }
+
+        if(dead) {
+            deathAnimCounter++;
+
+            if(deathAnimCounter < 5) {
+                deathNum = 1;
+            }
+            if(deathAnimCounter > 5 && deathAnimCounter < 10) {
+                deathNum = 2;
+            }
+            if(deathAnimCounter > 10 && deathAnimCounter < 15) {
+                deathNum = 3;
+            }
+            if(deathAnimCounter > 15 && deathAnimCounter < 20) {
+                deathNum = 4;
+            }
+            if(deathAnimCounter > 20 && deathAnimCounter < 25) {
+                deathNum = 5;
+            }
+            if(deathAnimCounter > 25) {
+                deathNum = 6;
+            }
+        }
+
 
     }
 

@@ -77,9 +77,9 @@ public class CollisionDetector {
         //getting collider of pos
     }
 
-    public int checkEntity(Entity entity, Entity[] other) {
+    public Entity checkEntity(Entity entity, Entity[] other) {
         //berechnung für 'nächsten' tile player moves to
-        int index = 999;
+        Entity index = null;
 
         for (int i = 0; i < other.length; i++) {
             if(other[i] != null) {
@@ -100,7 +100,8 @@ public class CollisionDetector {
                     if (entity.collider.intersects(other[i].collider)) {
                         if (other[i].collidable) {
                             entity.collOn = true;
-                            index = i;
+                            index = other[i];
+                            System.out.println("index: " + index);
                         }
                     }
 
@@ -110,7 +111,8 @@ public class CollisionDetector {
                     if (entity.collider.intersects(other[i].collider)) {
                         if (other[i].collidable) {
                             entity.collOn = true;
-                            index = i;
+                            index = other[i];
+                            System.out.println("index: " + index);
                         }
                     }
 
@@ -120,7 +122,8 @@ public class CollisionDetector {
                     if (entity.collider.intersects(other[i].collider)) {
                         if (other[i].collidable) {
                             entity.collOn = true;
-                            index = i;
+                            index = other[i];
+                            System.out.println("index: " + index);
                         }
                     }
 
@@ -130,7 +133,8 @@ public class CollisionDetector {
                     if (entity.collider.intersects(other[i].collider)) {
                         if (other[i].collidable) {
                             entity.collOn = true;
-                            index = i;
+                            index = other[i];
+                            System.out.println("index: " + index);
                         }
                     }
 

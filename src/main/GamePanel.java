@@ -7,6 +7,7 @@ import tile.TileManager;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import java.awt.event.MouseListener;
 
 //klasse die basically alles managed vor allem aber den screen und was darauf muss
 public class GamePanel extends JPanel implements Runnable{
@@ -101,8 +102,6 @@ public class GamePanel extends JPanel implements Runnable{
         NPCspawned = true;
     }
 
-
-
     public void update() {
         if(gameState == playState) {
             player.update();
@@ -110,6 +109,7 @@ public class GamePanel extends JPanel implements Runnable{
             for(int i = 0; i <  entities.length; i++) {
                 if(entities[i] != null) {
                     entities[i].update();
+                    entities[i].fakeUpdate();
                 }
             }
 

@@ -12,16 +12,31 @@ public class Entity {
     public GamePanel gp;
     public int x, y; //x und y koordinate des entities
     public int speed; //bewegungsgeschwindigkeit des entities
-    public int hp; //lebensanzeige des entities //tmp: noch nicht genutzt
+    public int hp; //lebensanzeige des entities
+    public boolean dead;
     public BufferedImage up1, up2, d1, d2, l1, l2, r1, r2; //bilder für jede richtung
+    public BufferedImage attUp1, attUp2, attUp3, attD1, attD2, attD3, attL1, attL2, attL3, attR1, attR2, attR3; //bilder für angriff in jede richtung
     public String dir; //string der richtung um rauszufinden in welcher richtung sich entity bewegt -> siehe Player Class
     public int wait = 0;
     public int num = 1;
+    public int attNum = 1;
+    int deathNum = 1;
+    public Rectangle normalCollider;
+    public Rectangle attackCollider;
     public Rectangle collider;
     public boolean collOn = false;
     public boolean invincible = false;
     public int invincCounter;
     public boolean collidable = true;
+    public boolean attacking = false;
+
+    public void fakeUpdate() {
+
+    }
+
+    public void takeDamage(){
+
+    }
 
     public Entity(GamePanel gp) {
         this.gp = gp;

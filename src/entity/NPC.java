@@ -15,6 +15,7 @@ public class NPC extends Entity{
     public int actionTimer;
     public BufferedImage[] images;
 
+    public BufferedImage dying1, dying2, dying3, dying4, dying5;
     int tmpX, tmpY;
 
     public int NpcType; // 0 = player, 1 = npc, 2 = enemy
@@ -95,94 +96,136 @@ public class NPC extends Entity{
         }
 
         public void update() {
-            if(x > tmpX || x < tmpX || y > tmpY || y < tmpY) {
-                //wenn der NPC sich bewegt
-                tmpX = x;
-                tmpY = y;
+          if(!dead) {
+              if(x > tmpX || x < tmpX || y > tmpY || y < tmpY) {
+                  //wenn der NPC sich bewegt
+                  tmpX = x;
+                  tmpY = y;
 
-                //NPC collision detecten
-                gp.CDetector.checkTile(this);
-                gp.CDetector.checkPlayer(this);
-            }
+                  //NPC collision detecten
+                  gp.CDetector.checkTile(this);
+                  gp.CDetector.checkPlayer(this);
+              }
 
-            setAction();
+              setAction();
 
-            wait++;
-            if(wait > 10) {
-                if (num == 1) {
-                    num = 2;
-                } else if (num == 2) {
-                    num = 1;
-                }
-                wait = 0;
-            }
+              wait++;
+              if(wait > 10) {
+                  if (num == 1) {
+                      num = 2;
+                  } else if (num == 2) {
+                      num = 1;
+                  }
+                  wait = 0;
+              }
 
-            if (collOn == false) {
-                if (dir == "up") {
-                    y -= speed;
-                }
+              if (collOn == false) {
+                  if (dir == "up") {
+                      y -= speed;
+                  }
 
-                if (dir == "down") {
-                    y += speed;
-                }
-                if (dir == "right") {
-                    x += speed;
-                }
-                if (dir == "left") {
-                    x -= speed;
-                }
-            } else {
-                setAction();
-            }
+                  if (dir == "down") {
+                      y += speed;
+                  }
+                  if (dir == "right") {
+                      x += speed;
+                  }
+                  if (dir == "left") {
+                      x -= speed;
+                  }
+              } else {
+                  setAction();
+              }
 
 
-            boolean contactPlayer = gp.CDetector.checkPlayer(this);
-            if(NpcType == 3 && contactPlayer) {
-                //theoretisch hier schaden
-                gp.player.collEnemy(3);
-            }
+              boolean contactPlayer = gp.CDetector.checkPlayer(this);
+              if(NpcType == 3 && contactPlayer) {
+                  //theoretisch hier schaden
+                  if(!gp.player.attacking) {
+                      gp.player.takeDamage();
+                  }
+                  else if(gp.player.attacking) {
+                      takeDamage();
+                  }
+              }
+          }else {
+              if(deathNum > 5) {
+                  x = 0;
+                  y = 0;
+              }
+          }
+
 
     }
 
 
 
         public void draw(Graphics2D g2) {
-        //hier wird der npc als bild erstellt
-        //spieler npc je nach richtung ändern
 
         BufferedImage image = null;
 
-        if(dir == "up") {
-            if(num == 1) {
-                image = up1;
+        if(dead) {
+            if(deathNum == 1) {
+                image = dying1;
             }
-            else if (num == 2) {
-                image = up2;
+            else if (deathNum == 2){
+                image = dying2;
             }
-        }else if(dir == "down") {
-            if(num == 1) {
-                image = d1;
+            else if (deathNum == 3){
+                image = dying3;
             }
-            else if (num == 2) {
-                image = d2;
+            else if (deathNum == 4){
+                image = dying4;
             }
-        }else if(dir == "right") {
-            if(num == 1) {
-                image = r1;
+            else if (deathNum == 5){
+                image = dying5;
             }
-            else if (num == 2) {
-                image = r2;
-            }
-        }else if(dir == "left") {
-            if(num == 1) {
-                image = l1;
-            }
-            else if (num == 2) {
-                image = l2;
-            }
+
+           if(deathNum < 6) { g2.drawImage(image, x, y, gp.tile, gp.tile, null);}
         }
-        g2.drawImage(image, x, y, gp.tile, gp.tile, null);
-    }
+
+        if(!dead) {
+            //hier wird der npc als bild erstellt
+            //spieler npc je nach richtung ändern
+            if(dir == "up") {
+                if(num == 1) {
+                    image = up1;
+                }
+                else if (num == 2) {
+                    image = up2;
+                }
+            }else if(dir == "down") {
+                if(num == 1) {
+                    image = d1;
+                }
+                else if (num == 2) {
+                    image = d2;
+                }
+            }else if(dir == "right") {
+                if(num == 1) {
+                    image = r1;
+                }
+                else if (num == 2) {
+                    image = r2;
+                }
+            }else if(dir == "left") {
+                if(num == 1) {
+                    image = l1;
+                }
+                else if (num == 2) {
+                    image = l2;
+                }
+            }
+
+            if(invincible) {
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+            }
+            g2.drawImage(image, x, y, gp.tile, gp.tile, null);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
+          }
+        }
+
 
 }
 

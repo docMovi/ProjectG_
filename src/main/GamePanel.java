@@ -4,6 +4,8 @@ import entity.Enemy;
 import entity.NPC;
 import entity.Player;
 import tile.TileManager;
+import Object.SuperObject;
+import Object.OBJ_Key;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -25,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable{
     //estimate value for tilesize on screen (for pixel art)
     public int tile = tileT * multiply;
     public NPC entities[] = new NPC[4];
+    public SuperObject objects[] = new SuperObject[5];
     public boolean NPCspawned;
 
     //player pos
@@ -96,10 +99,22 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
-    public void setNPC() {
-        entities[0] = new Enemy(this, 12, 14);
-        System.out.println("random x: " + entities[0].x / tile + " random y: " + entities[0].y / tile);
-        NPCspawned = true;
+    public void setNPC(int x, int y) {
+
+        if(entities[0] == null) {
+            entities[0] = new Enemy(this, x, y);
+            NPCspawned = true;
+        } else if(entities[0].dead) {
+            entities[1] = new Enemy(this, x, y);
+            NPCspawned = true;
+        } else {
+            //CANT SPAWN ENEMY
+        }
+
+    }
+
+    public void setObjects(int x, int y) {
+        objects[0] = new OBJ_Key(this, x, y);
     }
 
     public void update() {
@@ -140,13 +155,21 @@ public class GamePanel extends JPanel implements Runnable{
             n = 0;
         }
 
-        player.draw(g2); //dadurch kann der Spieler (=Player) drawen
+
 
         for(int i = 0; i <  entities.length; i++) {
             if(entities[i] != null) {
                 entities[i].draw(g2);
             }
         }
+
+        for(int i = 0; i <  objects.length; i++) {
+            if(objects[i] != null) {
+                objects[i].draw(g2, this);
+            }
+        }
+
+        player.draw(g2); //dadurch kann der Spieler (=Player) drawen
 
         g2.translate(-cam.getX(), -cam.getY());
         //ende cam

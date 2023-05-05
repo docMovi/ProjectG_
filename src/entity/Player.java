@@ -5,6 +5,7 @@ import main.Key;
 import tile.TileManager;
 
 import javax.imageio.ImageIO;
+import javax.swing.plaf.InsetsUIResource;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -15,7 +16,7 @@ public class Player extends Entity{
     // tmp https://www.youtube.com/watch?v=wT9uNGzMEM4&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=3
     TileManager tileM;
     Key key; //verbindung zum input management
-
+    int tmp = 0;
     int standCounter = 0;
     //int sprintSpeed; //tmp falls wir sprint einbauen sollten
 
@@ -106,7 +107,9 @@ public class Player extends Entity{
     public void takeDamage() {
         if(!attacking) {
             gp.ui.showMessage("-20", 2);
+            if(!invincible) {hp--;}
             invincible = true;
+
         }
 
     }
@@ -174,11 +177,26 @@ public class Player extends Entity{
             if(gp.NPCspawned) {
                 Entity npcI = gp.CDetector.checkEntity(this, gp.entities);
                 interactNPC(npcI);
-            } else {
+            }
+
+            if(!gp.NPCspawned) {
+
                 if(checkPos("x", 12) == 1) {
-                    gp.setNPC();
+                    gp.setNPC(12, 14);
+                    gp.setObjects(12, 12);
+                }
+            }else{
+                if((gp.entities[tmp] != null && gp.entities[tmp].dead)){
+                    if(checkPos("x", 12) == 1) {
+                        gp.setNPC(12, 14);
+                        gp.setObjects(12, 12);
+                        tmp++;
+                        System.out.println(tmp);
+                    }
                 }
             }
+
+
         }
 
 

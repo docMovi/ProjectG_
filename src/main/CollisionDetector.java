@@ -101,7 +101,6 @@ public class CollisionDetector {
                         if (other[i].collidable) {
                             entity.collOn = true;
                             index = other[i];
-                            System.out.println("index: " + index);
                         }
                     }
 
@@ -112,7 +111,6 @@ public class CollisionDetector {
                         if (other[i].collidable) {
                             entity.collOn = true;
                             index = other[i];
-                            System.out.println("index: " + index);
                         }
                     }
 
@@ -123,7 +121,6 @@ public class CollisionDetector {
                         if (other[i].collidable) {
                             entity.collOn = true;
                             index = other[i];
-                            System.out.println("index: " + index);
                         }
                     }
 
@@ -134,7 +131,6 @@ public class CollisionDetector {
                         if (other[i].collidable) {
                             entity.collOn = true;
                             index = other[i];
-                            System.out.println("index: " + index);
                         }
                     }
 

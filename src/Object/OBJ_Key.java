@@ -12,7 +12,6 @@ public class OBJ_Key extends SuperObject{
         this.x = x;
         this.y = y;
 
-        System.out.println("x: " + x + ", y: " + y);
         name = "Key";
 
         try {

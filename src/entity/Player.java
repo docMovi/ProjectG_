@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.Key;
+import main.Pathfinder;
 import tile.TileManager;
 
 import javax.imageio.ImageIO;

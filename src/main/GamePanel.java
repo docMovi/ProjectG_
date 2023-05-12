@@ -20,8 +20,9 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this, key, tm);
     public LevelHandler lh = new LevelHandler(this);;
     public CollisionDetector CDetector = new CollisionDetector(this, tm);
+    public Pathfinder pathfinder = new Pathfinder(this);
     Camera cam = new Camera(this, -player.x + 1920 / 2, -player.y + 1080 / 2);
-
+    Sound sound = new Sound(this);
     int tileT = 16;
     int multiply = 5;
     //estimate value for tilesize on screen (for pixel art)
@@ -59,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void Start() {
         gameState = playState;
         ui.showMessage("Drücke W, A, S oder D um dich zu bewegen!", 5);
+        playMusic(0);
     }
 
     public void startGameThread() {
@@ -180,6 +182,12 @@ public class GamePanel extends JPanel implements Runnable{
         g2.dispose();
 
         //tmp https://www.youtube.com/watch?v=VpH33Uw-_0E&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=2
+    }
+
+    public void playMusic(int i) {
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
     }
 
 

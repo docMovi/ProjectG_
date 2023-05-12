@@ -17,7 +17,8 @@ public class NPC extends Entity{
 
     public BufferedImage dying1, dying2, dying3, dying4, dying5;
     int tmpX, tmpY;
-
+    int aggroRange;
+    boolean inRange;
     public int NpcType; // 0 = player, 1 = npc, 2 = enemy
 
     public NPC(GamePanel gp) {
@@ -97,6 +98,8 @@ public class NPC extends Entity{
 
         public void update() {
           if(!dead) {
+              inRange = gp.pathfinder.isPlayerInRadius(aggroRange, this);
+
               if(x > tmpX || x < tmpX || y > tmpY || y < tmpY) {
                   //wenn der NPC sich bewegt
                   tmpX = x;

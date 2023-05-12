@@ -26,6 +26,7 @@ public class Enemy extends NPC {
 
     private void setValues() {
         speed = 2;
+        aggroRange = 4;
 
         //hier auch bilder einfügen
         try {

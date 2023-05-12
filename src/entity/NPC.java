@@ -15,7 +15,7 @@ public class NPC extends Entity{
     public int actionTimer;
     public BufferedImage[] images;
 
-    public BufferedImage dying1, dying2, dying3, dying4, dying5;
+
     int tmpX, tmpY;
     int aggroRange;
     boolean inRange;
@@ -57,48 +57,57 @@ public class NPC extends Entity{
 
         public void setAction() {
 
-            actionTimer++;
-            String tmpDir = dir;
+            if(!stop) {
+                actionTimer++;
+                String tmpDir = dir;
 
-            if(actionTimer == 180) {
-                int i = random.nextInt(100) + 1; //zahl von + x bis klammer
+                if(actionTimer == 180) {
+                    int i = random.nextInt(100) + 1; //zahl von + x bis klammer
 
-                if(i <= 25) {
-                    if(tmpDir != "up") {
-                        dir  = "up";
-                        collOn = false;
+                    if(i <= 25) {
+                        if(tmpDir != "up") {
+                            dir  = "up";
+                            collOn = false;
+                        }
                     }
-                }
 
-                if(i > 25 && i < 50) {
-                    if(tmpDir != "down") {
-                        dir = "down";
-                        collOn = false;
+                    if(i > 25 && i < 50) {
+                        if(tmpDir != "down") {
+                            dir = "down";
+                            collOn = false;
+                        }
                     }
-                }
 
-                if(i > 50 && i<75) {
-                    if(tmpDir != "left") {
-                        dir = "left";
-                        collOn = false;
+                    if(i > 50 && i<75) {
+                        if(tmpDir != "left") {
+                            dir = "left";
+                            collOn = false;
+                        }
                     }
-                }
 
-                if(i > 75 && i <= 100) {
-                    if(tmpDir != "up") {
-                        dir = "right";
-                        collOn = false;
+                    if(i > 75 && i <= 100) {
+                        if(tmpDir != "up") {
+                            dir = "right";
+                            collOn = false;
+                        }
                     }
-                }
 
-                actionTimer = 0;
+                    actionTimer = 0;
+                }
             }
+
+
 
         }
 
         public void update() {
           if(!dead) {
               inRange = gp.pathfinder.isPlayerInRadius(aggroRange, this);
+
+              System.out.println(inRange);
+              if(inRange) {
+                  gp.pathfinder.FollowPlayer(this);
+              }
 
               if(x > tmpX || x < tmpX || y > tmpY || y < tmpY) {
                   //wenn der NPC sich bewegt
@@ -137,7 +146,13 @@ public class NPC extends Entity{
                       x -= speed;
                   }
               } else {
-                  setAction();
+                  if(!stop){
+                      setAction();
+                  } else {
+                      gp.pathfinder.Colliding(this);
+                      collOn = false;
+                  }
+
               }
 
 

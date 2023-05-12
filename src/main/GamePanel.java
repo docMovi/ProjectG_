@@ -60,7 +60,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void Start() {
         gameState = playState;
         ui.showMessage("Drücke W, A, S oder D um dich zu bewegen!", 5);
-        playMusic(0);
+        //playMusic(0);
     }
 
     public void startGameThread() {

@@ -16,6 +16,7 @@ public class Entity {
     public boolean dead;
     public BufferedImage up1, up2, d1, d2, l1, l2, r1, r2; //bilder für jede richtung
     public BufferedImage attUp1, attUp2, attUp3, attD1, attD2, attD3, attL1, attL2, attL3, attR1, attR2, attR3; //bilder für angriff in jede richtung
+    public BufferedImage dying1, dying2, dying3, dying4, dying5; //dying animation
     public String dir; //string der richtung um rauszufinden in welcher richtung sich entity bewegt -> siehe Player Class
     public int wait = 0;
     public int num = 1;
@@ -29,7 +30,8 @@ public class Entity {
     public int invincCounter;
     public boolean collidable = true;
     public boolean attacking = false;
-
+    public boolean stop = false;
+    public String diagonal = "";
     public void fakeUpdate() {
 
     }

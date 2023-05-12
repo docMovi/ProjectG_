@@ -72,6 +72,8 @@ public class Player extends Entity{
             attL2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/left_attack2.png"));
             attL3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/left_attack3.png"));
 
+
+
             // tmp https://www.youtube.com/watch?v=wT9uNGzMEM4&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=4
 
         }catch (IOException e){

@@ -186,13 +186,13 @@ public class Player extends Entity{
 
                 if(checkPos("x", 12) == 1) {
                     gp.setNPC(12, 14);
-                    gp.setObjects(12, 12);
+                    gp.setObjects(12, 12, "KEY");
+                    gp.setObjects(14, 12, "DOOR");
                 }
             }else{
                 if((gp.entities[tmp] != null && gp.entities[tmp].dead)){
                     if(checkPos("x", 12) == 1) {
                         gp.setNPC(12, 14);
-                        gp.setObjects(12, 12);
                         tmp++;
                         System.out.println(tmp);
                     }

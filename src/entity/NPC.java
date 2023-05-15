@@ -104,7 +104,6 @@ public class NPC extends Entity{
           if(!dead) {
               inRange = gp.pathfinder.isPlayerInRadius(aggroRange, this);
 
-              System.out.println(inRange);
               if(inRange) {
                   gp.pathfinder.FollowPlayer(this);
               }

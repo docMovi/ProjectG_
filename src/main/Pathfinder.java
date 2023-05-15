@@ -15,7 +15,6 @@ public class Pathfinder {
 
     public boolean isPlayerInRadius(int radius, Entity entity) {
         boolean inRadius = false;
-        System.out.println("tester");
 
         int radiusX = entity.x / gp.tile + radius;
         int minusRadiusX = entity.x / gp.tile - radius;
@@ -23,16 +22,24 @@ public class Pathfinder {
         int minusRadiusY = entity.y / gp.tile - radius;
 
         if (gp.player.x / gp.tile <= radiusX && gp.player.x / gp.tile >= entity.x / gp.tile) { if(gp.player.y / gp.tile != entity.y / gp.tile ) {
-            if (gp.player.y / gp.tile >= minusRadiusY && gp.player.y / gp.tile <= entity.y / gp.tile) { //TOP
+            if (gp.player.y / gp.tile >= minusRadiusY && gp.player.y / gp.tile <= entity.y / gp.tile && gp.player.x / gp.tile != entity.x / gp.tile) { //TOP
                 gp.ui.showMessage("top right", 2);
                 dir_x = "right";
                 dir_y = "top";
                 inRadius = true;
 
-            } else if (gp.player.y / gp.tile <= radiusY && gp.player.y / gp.tile >= entity.y / gp.tile) { //DOWN
+            } else if (gp.player.y / gp.tile <= radiusY && gp.player.y / gp.tile >= entity.y / gp.tile && gp.player.x / gp.tile != entity.x / gp.tile) { //DOWN
                 gp.ui.showMessage("bottom right", 2);
                 dir_x = "right";
                 dir_y = "bottom";
+                inRadius = true;
+            } if ( gp.player.y / gp.tile <= radiusY && gp.player.y / gp.tile >= entity.y / gp.tile && gp.player.x / gp.tile == entity.x / gp.tile) {
+                dir_x = "";
+                dir_y = "down";
+                inRadius = true;
+            } if(gp.player.y / gp.tile >= minusRadiusY && gp.player.y / gp.tile <= entity.y / gp.tile && gp.player.x / gp.tile == entity.x / gp.tile) {
+                dir_x = "";
+                dir_y = "up";
                 inRadius = true;
             }
         }}//RIGHT
@@ -51,14 +58,26 @@ public class Pathfinder {
                     dir_y = "bottom";
                     inRadius = true;
                 }
+                if ( gp.player.y / gp.tile <= radiusY && gp.player.y / gp.tile >= entity.y / gp.tile && gp.player.x / gp.tile == entity.x / gp.tile) {
+                    dir_x = "";
+                    dir_y = "down";
+                    inRadius = true;
+                }
+                if(gp.player.y / gp.tile >= minusRadiusY && gp.player.y / gp.tile <= entity.y / gp.tile && gp.player.x / gp.tile == entity.x / gp.tile) {
+                    dir_x = "";
+                    dir_y = "up";
+                    inRadius = true;
+            }
+
 
             }
 
-        }else if(gp.player.x / gp.tile > radiusX && gp.player.y / gp.tile > radiusY || gp.player.x / gp.tile < minusRadiusX && gp.player.y < minusRadiusY) {
-            inRadius = false;
-            System.out.println("tester2");
+
         } else if (gp.player.x / gp.tile == entity.x && gp.player.y == entity.y) {
             entity.y -= entity.speed;
+        }
+        else{
+            inRadius = false;
         }
 
         return inRadius;
@@ -67,7 +86,6 @@ public class Pathfinder {
     int timer = 0;
 
     public void FollowPlayer(Entity entity) {
-        System.out.println("y: " + dir_y);
 
         if(dir_x == "right") {
             if(entity.dir != "right") {
@@ -82,6 +100,16 @@ public class Pathfinder {
             entity.y -= entity.speed;
         } else if(dir_y == "bottom") {
             entity.y += entity.speed;
+        }
+
+        if(dir_y == "up") {
+            if(entity.dir != "up") {
+                entity.dir = "up";
+            }
+        } else if(dir_y == "down") {
+            if(entity.dir != "down") {
+                entity.dir = "down";
+            }
         }
 
     }

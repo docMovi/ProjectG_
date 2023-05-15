@@ -6,6 +6,7 @@ import entity.Player;
 import tile.TileManager;
 import Object.SuperObject;
 import Object.OBJ_Key;
+import Object.OBJ_Door;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -60,7 +61,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void Start() {
         gameState = playState;
         ui.showMessage("Drücke W, A, S oder D um dich zu bewegen!", 5);
-        //playMusic(0);
+        playMusic(0);
     }
 
     public void startGameThread() {
@@ -115,8 +116,16 @@ public class GamePanel extends JPanel implements Runnable{
 
     }
 
-    public void setObjects(int x, int y) {
-        objects[0] = new OBJ_Key(this, x, y);
+    int i = 0;
+
+    public void setObjects(int x, int y, String type) {
+        if(type == "KEY") {
+            objects[i] = new OBJ_Key(this, x, y);
+            i++;
+        }else if(type == "DOOR"){
+            objects[i] = new OBJ_Door(this, x, y);
+            i++;
+        }
     }
 
     public void update() {

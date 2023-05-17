@@ -1,6 +1,9 @@
 package main;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class UI {
     GamePanel gp;
@@ -14,14 +17,19 @@ public class UI {
     public boolean messageOn = false;
     public String message = "";
     int messageTimer = 0;
-
     int time;
+    BufferedImage img;
     public UI(GamePanel gp) {
         this.gp = gp;
         arial30 = new Font("Arial", Font.BOLD, 30);
         arial40 = new Font("Arial", Font.BOLD, 40);
         arial40_k = new Font("Arial", Font.ITALIC, 40);
         arial50 = new Font("Arial", Font.BOLD, 50);
+
+        try {
+            img = ImageIO.read(getClass().getClassLoader().getResourceAsStream("ui/gameover.png"));
+        } catch (IOException e) {
+        }
     }
 
     public void showMessage(String text, int sec) {
@@ -67,6 +75,25 @@ public class UI {
             int y = gp.tile * 4;
 
             g2.drawString(text, x, y);
+        }
+
+        if(gp.gameState == gp.gameOverState){
+            //game over screen
+            g2.setColor(Color.white);
+            g2.setFont(arial50);
+            String text = "GAME OVER";
+            String text2 = "[LEERTASTE] UM NEUZUSTARTEN!";
+            String text3 = "DANKE FÜR'S SPIELEN!";
+            int x = gp.tile * 10;
+            int y = gp.tile * 4;
+            int x2 = gp.tile * 7;
+            int y2 = gp.tile * 10;
+
+            g2.drawImage(img, 0,0,1920,1080, null);
+            g2.drawImage(gp.player.d1, x, y,4*gp.tile,4* gp.tile, null);
+            g2.drawString(text, x, y);
+            g2.drawString(text3, x2, y + 5 * gp.tile);
+            g2.drawString(text2, x2, y2);
         }
 
     }

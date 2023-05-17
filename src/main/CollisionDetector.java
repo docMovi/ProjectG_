@@ -64,7 +64,7 @@ public class CollisionDetector {
 
         }if(entity.dir == "down"){
             eBottRow = (eBottY + entity.speed)/ gp.tile;
-            if(gp.lh.list2[eLeftCol][eBottRow] != null || gp.lh.list2[eRightCol][eBottRow] != null){
+         if(gp.lh.list2[eLeftCol][eBottRow] != null || gp.lh.list2[eRightCol][eBottRow] != null){
                 if(gp.lh.list2[eLeftCol][eBottRow].coll || gp.lh.list2[eRightCol][eBottRow].coll){
                     entity.collOn = true;
                 }

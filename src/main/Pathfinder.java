@@ -33,7 +33,13 @@ public class Pathfinder {
                 dir_x = "right";
                 dir_y = "bottom";
                 inRadius = true;
-            } if ( gp.player.y / gp.tile <= radiusY && gp.player.y / gp.tile >= entity.y / gp.tile && gp.player.x / gp.tile == entity.x / gp.tile) {
+            }
+            if(gp.player.y / gp.tile == entity.y) {
+                dir_x = "right";
+                dir_y = "";
+                inRadius = true;
+            }
+            if ( gp.player.y / gp.tile <= radiusY && gp.player.y / gp.tile >= entity.y / gp.tile && gp.player.x / gp.tile == entity.x / gp.tile) {
                 dir_x = "";
                 dir_y = "down";
                 inRadius = true;
@@ -58,6 +64,12 @@ public class Pathfinder {
                     dir_y = "bottom";
                     inRadius = true;
                 }
+                if(gp.player.y / gp.tile == entity.y) {
+                    dir_x = "left";
+                    dir_y = "";
+                    inRadius = true;
+                }
+
                 if ( gp.player.y / gp.tile <= radiusY && gp.player.y / gp.tile >= entity.y / gp.tile && gp.player.x / gp.tile == entity.x / gp.tile) {
                     dir_x = "";
                     dir_y = "down";
@@ -73,7 +85,9 @@ public class Pathfinder {
             }
 
 
-        } else if (gp.player.x / gp.tile == entity.x && gp.player.y == entity.y) {
+        }
+
+        else if (gp.player.x / gp.tile == entity.x && gp.player.y == entity.y) {
             entity.y -= entity.speed;
         }
         else{

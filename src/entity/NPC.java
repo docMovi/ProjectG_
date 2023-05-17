@@ -146,7 +146,9 @@ public class NPC extends Entity{
                   }
               } else {
                   if(!stop){
-                      setAction();
+                      if(!gp.pathfinder.isPlayerInRadius(aggroRange, this)) {
+                          setAction();
+                      }
                   } else {
                       gp.pathfinder.Colliding(this);
                       collOn = false;

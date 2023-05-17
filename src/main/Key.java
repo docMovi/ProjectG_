@@ -10,7 +10,7 @@ public class Key implements KeyListener {
     GamePanel gp;
 
     MouseListener mouseListener;
-    public boolean uppress, downpress, leftpress, rightpress, npressed, leftClick;
+    public boolean uppress, downpress, leftpress, rightpress, npressed, leftClick, spacebar;
 
     public Key(GamePanel gp) {
         this.gp = gp;
@@ -48,6 +48,9 @@ public class Key implements KeyListener {
             } else if (gp.gameState == gp.pauseState) {
                 gp.gameState = gp.playState;
             }
+        }
+        if(code == KeyEvent.VK_SPACE){
+            spacebar = true;
         }
 
     }

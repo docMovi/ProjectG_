@@ -72,6 +72,12 @@ public class Player extends Entity{
             attL2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/left_attack2.png"));
             attL3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/left_attack3.png"));
 
+            dying1 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/dying1.png"));
+            dying2 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/dying2.png"));
+            dying3 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/dying3.png"));
+            dying4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/dying4.png"));
+            dying5 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/dying5.png"));
+
 
 
             // tmp https://www.youtube.com/watch?v=wT9uNGzMEM4&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=4
@@ -111,11 +117,14 @@ public class Player extends Entity{
         if(!attacking) {
             gp.ui.showMessage("-20", 2);
             if(!invincible) {hp--;}
+            if(hp == 0) {
+                dead();
+            }
             invincible = true;
-
         }
 
     }
+
 
     public void update() {
 
@@ -265,6 +274,9 @@ public class Player extends Entity{
         }
     }
 
+    public void dead(){
+        gp.gameState = gp.gameOverState;
+    }
 
     public void draw(Graphics2D g2) {
         //hier wird der spieler als bild erstellt

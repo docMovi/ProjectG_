@@ -111,9 +111,13 @@ public class Pathfinder {
             }
         }
         if(dir_y == "top") {
-            entity.y -= entity.speed;
+            if(entity.collOn != true) {
+                entity.y -= entity.speed;
+            }
         } else if(dir_y == "bottom") {
-            entity.y += entity.speed;
+            if(entity.collOn != true){
+                entity.y += entity.speed;
+            }
         }
 
         if(dir_y == "up") {

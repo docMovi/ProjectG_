@@ -190,6 +190,7 @@ public class CollisionDetector {
         return contactPlayer;
     }
 
+
     public int checkObject(Entity entity, boolean isPlayer) {
 
         int index = 999;

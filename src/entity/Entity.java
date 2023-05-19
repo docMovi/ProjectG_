@@ -31,7 +31,7 @@ public class Entity {
     public boolean collidable = true;
     public boolean attacking = false;
     public boolean stop = false;
-    public String diagonal = "";
+    public boolean followingPlayer;
     public void fakeUpdate() {
 
     }

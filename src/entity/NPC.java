@@ -106,6 +106,9 @@ public class NPC extends Entity{
 
               if(inRange) {
                   gp.pathfinder.FollowPlayer(this);
+                  followingPlayer = true;
+              }else {
+                  followingPlayer = false;
               }
 
               if(x > tmpX || x < tmpX || y > tmpY || y < tmpY) {

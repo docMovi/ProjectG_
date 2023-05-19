@@ -4,6 +4,7 @@ package Object;
 import main.GamePanel;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.IOException;
 
 public class OBJ_Door extends SuperObject {
@@ -14,6 +15,8 @@ public class OBJ_Door extends SuperObject {
         this.y = y;
 
         name = "Door";
+        collider = new Rectangle(x, y, gp.tile, gp.tile);
+        collision = true;
 
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/Objects/Door.png"));

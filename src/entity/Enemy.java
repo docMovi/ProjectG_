@@ -55,6 +55,7 @@ public class Enemy extends NPC {
         gp.ui.showMessage("10", 1);
         if(invincible!=true) {
             hp--;
+            gp.playSE(2,this);
         }
         invincible = true;
     }

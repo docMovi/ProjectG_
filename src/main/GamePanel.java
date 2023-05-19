@@ -1,6 +1,7 @@
 package main;
 
 import entity.Enemy;
+import entity.Entity;
 import entity.NPC;
 import entity.Player;
 import tile.TileManager;
@@ -24,6 +25,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Pathfinder pathfinder = new Pathfinder(this);
     Camera cam = new Camera(this, -player.x + 1920 / 2, -player.y + 1080 / 2);
     Sound sound = new Sound(this);
+    Sound music = new Sound(this);
     int tileT = 16;
     int multiply = 5;
     //estimate value for tilesize on screen (for pixel art)
@@ -139,6 +141,11 @@ public class GamePanel extends JPanel implements Runnable{
                     entities[i].fakeUpdate();
                 }
             }
+            for(int i = 0; i <  objects.length; i++) {
+                if(objects[i] != null) {
+                    objects[i].update();
+                }
+            }
 
         }
         if(gameState == pauseState) {
@@ -195,9 +202,22 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void playMusic(int i) {
+        music.setFile(i);
+        music.play();
+        music.loop();
+    }
+    public void stopMusic() {
+        music.stop();
+    }
+    public void playSE(int i){
         sound.setFile(i);
         sound.play();
-        sound.loop();
+    }
+    public void playSE(int i, Entity E) {
+        if (!E.dead) {
+            sound.setFile(i);
+            sound.play();
+        }
     }
 
 

@@ -3,6 +3,7 @@ package main;
 import entity.Entity;
 import tile.Tile;
 import tile.TileManager;
+import Object.SuperObject;
 
 //class to handle collision detection
 public class CollisionDetector {
@@ -188,6 +189,99 @@ public class CollisionDetector {
 
         return contactPlayer;
     }
+
+    public int checkObject(Entity entity, boolean isPlayer) {
+
+        int index = 999;
+
+        for (int i = 0; i < gp.objects.length; i++) {
+            System.out.println("NOT CHECKING OBJECT!");
+            if (gp.objects[i] != null) {
+                System.out.println("CHECKING!");
+                System.out.println(i);
+                int xDefault = entity.collider.x;
+                int yDefault = entity.collider.y;
+
+                int otherXDefault = gp.objects[i].collider.x;
+                int otherYDefault = gp.objects[i].collider.y;
+
+                entity.collider.x = entity.x + entity.collider.x;
+                entity.collider.y = entity.y + entity.collider.y;
+
+
+                gp.objects[i].collider.x = gp.objects[i].x * gp.tile + gp.objects[i].collider.x;
+                gp.objects[i].collider.y = gp.objects[i].y * gp.tile + gp.objects[i].collider.y;
+
+                System.out.println("players collider: x: " + entity.collider.x + " y: " + entity.collider.y);
+                System.out.println("objects collider: x: " + gp.objects[i].collider.x + " y: " + gp.objects[i].collider.y);
+
+                if (entity.dir == "up") {
+                    gp.player.collider.y -= entity.speed;
+                    if (gp.objects[i].collider.intersects(entity.collider)) {
+                        if (gp.objects[i].collision) {
+                            entity.collOn = true;
+                            index = i;
+                            System.out.println("COLLIDING");
+                        } else {
+                            index = i;
+                            System.out.println("WALKING THROUGH!");
+                        }
+                    }
+
+                }
+                if (entity.dir == "right") {
+                    entity.collider.x += entity.speed;
+                    if (gp.objects[i].collider.intersects(entity.collider)) {
+                        if (gp.objects[i].collision) {
+                            entity.collOn = true;
+                            index = i;
+                            System.out.println("COLLIDING");
+                        } else {
+                            index = i;
+                            System.out.println("WALKING THROUGH!");
+                        }
+                    }
+
+                }
+                if (entity.dir == "left") {
+                    entity.collider.x -= entity.speed;
+                    if (gp.objects[i].collider.intersects(entity.collider)) {
+                        if (gp.objects[i].collision) {
+                            entity.collOn = true;
+                            index = i;
+                            System.out.println("COLLIDING");
+                        } else {
+                            index = i;
+                            System.out.println("WALKING THROUGH!");
+                        }
+                    }
+
+                }
+                if (entity.dir == "down") {
+                    entity.collider.y += entity.speed;
+                    if (gp.objects[i].collider.intersects(entity.collider)) {
+                        if (gp.objects[i].collision) {
+                            entity.collOn = true;
+                            index = i;
+                            System.out.println("COLLIDING");
+                        } else {
+                            index = i;
+                            System.out.println("WALKING THROUGH!");
+                        }
+                    }
+
+                }
+                entity.collider.x = xDefault;
+                entity.collider.y = yDefault;
+
+                gp.objects[i].collider.x = otherXDefault;
+                gp.objects[i].collider.y = otherYDefault;
+            }
+        }
+
+        return index;
+    }
+
 
 
 }

@@ -22,6 +22,7 @@ public class Player extends Entity{
     //int sprintSpeed; //tmp falls wir sprint einbauen sollten
 
     int speedNormal;
+    int hasKey = 0;
     public Player(GamePanel g, Key k, TileManager tileM) {
         super(g);
         this.gp = g;
@@ -115,8 +116,8 @@ public class Player extends Entity{
     @Override
     public void takeDamage() {
         if(!attacking) {
-            gp.ui.showMessage("-20", 2);
-            if(!invincible) {hp--;}
+            gp.ui.showMessage("-1", 2);
+            if(!invincible) {hp--;gp.playSE(1,this);}
             if(hp == 0) {
                 dead();
             }
@@ -183,7 +184,9 @@ public class Player extends Entity{
             collOn = false;
             gp.CDetector.checkTile(this);
 
-
+            // check von collision der Objects
+            int objindex = gp.CDetector.checkObject(this, true);
+            pickupObject(objindex);
 
             //check von collision mit npcs
             if(gp.NPCspawned) {
@@ -249,6 +252,29 @@ public class Player extends Entity{
         if(i != null) {
             collEnemy(i);
             collEnemy(i);
+        }
+    }
+
+    public void pickupObject(int i) {
+
+        if(i != 999) {
+            String objectName = gp.objects[i].name;
+
+            switch(objectName) {
+                case"Key":
+                    hasKey++;
+                    gp.objects[i] = null;
+                    System.out.println("Key"+hasKey);
+                    break;
+                case "Door":
+                    if(hasKey > 0) {
+                        gp.objects[i] = null;
+                        hasKey--;
+                    }
+                    System.out.println("Key"+hasKey);
+                    break;
+            }
+
         }
     }
 

@@ -10,10 +10,11 @@ public class SuperObject {
 
     public BufferedImage image;
     public String name;
+    GamePanel gp;
     public boolean collision = false;
     public int x, y;
 
-    public Rectangle collider = new Rectangle(0, 0, 48, 48);
+    public Rectangle collider;
 
     public int colliderDefaultX = 0;
     public int ColliderDefaultY = 0;
@@ -27,5 +28,10 @@ public class SuperObject {
                   //      y - gp.tile < gp.player.y   ) {}
 
         g2.drawImage(image, x * gp.tile , y * gp.tile, gp.tile, gp.tile, null);
+        this.gp = gp;
+    }
+
+    public void update() {
+
     }
 }

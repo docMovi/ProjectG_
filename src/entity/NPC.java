@@ -11,7 +11,7 @@ import java.util.Random;
 public class NPC extends Entity{
 
     Random random;
-
+    boolean executed = false;
     public int actionTimer;
     public BufferedImage[] images;
 
@@ -99,6 +99,7 @@ public class NPC extends Entity{
 
 
         }
+
 
         public void update() {
           if(!dead) {

@@ -19,6 +19,7 @@ public class LevelHandler {
 
     public Tile[][] list;
     public Tile[][] list2;
+    public int[] tmpenemies;
 
     public int x, y;
 
@@ -38,6 +39,7 @@ public class LevelHandler {
             int w = lvl.getWidth();
             int h = lvl.getHeight();
             list = new Tile[w] [h]; //index sehr dumm gewählt aber beste option i think
+            tmpenemies = new int[w];
 
                 //loop durch das ganze bild um farben zu erkennen
                 for (int i = 0; i < h; i++) {
@@ -70,11 +72,23 @@ public class LevelHandler {
 
                             gp.player.setPos(x, y);
                         }
+                        else if(r == 255 && g == 0 && b == 0){ //rot -> spawnpoint gegner
+                            g2.drawImage(tileM.tiles[0].image, j * gp.tile, i * gp.tile, gp.tile, gp.tile,null);
+                            //add tile to list of tiles
+                            list[j][i] = new Tile(j, i, false); // COULD CAUSE LAG
+                            tmpenemies[j] = i;
+
+                            x = j * gp.tile;
+                            y = i * gp.tile;
+
+
+
+                        }
 
                     }
                 }
                 list2 = list;
-
+                gp.enemies = tmpenemies;
             }
 
 

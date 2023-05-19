@@ -23,6 +23,8 @@ public class Player extends Entity{
 
     int speedNormal;
     int hasKey = 0;
+    int x_, y_;
+    boolean objSpawned = false;
     public Player(GamePanel g, Key k, TileManager tileM) {
         super(g);
         this.gp = g;
@@ -95,6 +97,8 @@ public class Player extends Entity{
             executed = true;
             this.x = x;
             this.y = y;
+            x_ = x / gp.tile;
+            y_ = y / gp.tile;
             System.out.println("been there, done that");
         }
     }
@@ -194,20 +198,16 @@ public class Player extends Entity{
                 interactNPC(npcI);
             }
 
-            if(!gp.NPCspawned) {
 
-                if(checkPos("x", 12) == 1) {
-                    gp.setNPC(12, 14);
+
+            if(!gp.NPCspawned){
+                if(checkPos("x", x_ + 2) == 1 || checkPos("x", x_ - 2) == 1 || checkPos("y", y_ + 2) == 1 ||checkPos("x", y_ - 2) == 1) {
+                    gp.setNPC();
+                }
+                if(checkPos("x", 12) == 1 && objSpawned == false) {
                     gp.setObjects(12, 12, "KEY");
                     gp.setObjects(14, 12, "DOOR");
-                }
-            }else{
-                if((gp.entities[tmp] != null && gp.entities[tmp].dead)){
-                    if(checkPos("x", 12) == 1) {
-                        gp.setNPC(12, 14);
-                        tmp++;
-                        System.out.println(tmp);
-                    }
+                    objSpawned = true;
                 }
             }
 

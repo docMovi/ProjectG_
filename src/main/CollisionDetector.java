@@ -196,10 +196,7 @@ public class CollisionDetector {
         int index = 999;
 
         for (int i = 0; i < gp.objects.length; i++) {
-            System.out.println("NOT CHECKING OBJECT!");
             if (gp.objects[i] != null) {
-                System.out.println("CHECKING!");
-                System.out.println(i);
                 int xDefault = entity.collider.x;
                 int yDefault = entity.collider.y;
 
@@ -213,19 +210,14 @@ public class CollisionDetector {
                 gp.objects[i].collider.x = gp.objects[i].x * gp.tile + gp.objects[i].collider.x;
                 gp.objects[i].collider.y = gp.objects[i].y * gp.tile + gp.objects[i].collider.y;
 
-                System.out.println("players collider: x: " + entity.collider.x + " y: " + entity.collider.y);
-                System.out.println("objects collider: x: " + gp.objects[i].collider.x + " y: " + gp.objects[i].collider.y);
-
                 if (entity.dir == "up") {
                     gp.player.collider.y -= entity.speed;
                     if (gp.objects[i].collider.intersects(entity.collider)) {
                         if (gp.objects[i].collision) {
                             entity.collOn = true;
                             index = i;
-                            System.out.println("COLLIDING");
                         } else {
                             index = i;
-                            System.out.println("WALKING THROUGH!");
                         }
                     }
 
@@ -236,10 +228,8 @@ public class CollisionDetector {
                         if (gp.objects[i].collision) {
                             entity.collOn = true;
                             index = i;
-                            System.out.println("COLLIDING");
                         } else {
                             index = i;
-                            System.out.println("WALKING THROUGH!");
                         }
                     }
 
@@ -250,10 +240,8 @@ public class CollisionDetector {
                         if (gp.objects[i].collision) {
                             entity.collOn = true;
                             index = i;
-                            System.out.println("COLLIDING");
                         } else {
                             index = i;
-                            System.out.println("WALKING THROUGH!");
                         }
                     }
 
@@ -264,10 +252,8 @@ public class CollisionDetector {
                         if (gp.objects[i].collision) {
                             entity.collOn = true;
                             index = i;
-                            System.out.println("COLLIDING");
                         } else {
                             index = i;
-                            System.out.println("WALKING THROUGH!");
                         }
                     }
 

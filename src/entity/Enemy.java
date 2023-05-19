@@ -47,7 +47,7 @@ public class Enemy extends NPC {
         } catch (IOException e) {
         }
 
-        System.out.println("Im an enemy");
+        System.out.println("Im an enemy on x: " + x + " and y: " + y);
     }
 
     @Override

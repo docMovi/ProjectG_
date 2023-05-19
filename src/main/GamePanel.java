@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int playState = 1;
     public final int pauseState = 2;
     public final int gameOverState = 3;
-
+    public int[] enemies = new int[32];
 
 
 
@@ -105,19 +105,25 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
-    public void setNPC(int x, int y) {
-
-        if(entities[0] == null) {
-            entities[0] = new Enemy(this, x, y);
-            NPCspawned = true;
-        } else if(entities[0].dead) {
-            entities[1] = new Enemy(this, x, y);
-            NPCspawned = true;
-        } else {
-            //CANT SPAWN ENEMY
-        }
-
-    }
+    int tmp = 0;
+    boolean executed = false;
+    public void setNPC() {
+       System.out.println("TRYING TO EXECUTE");
+       if(!executed) {
+           System.out.println("STILL TRYING TO EXECUTE");
+               for (int i = 0; i < enemies.length; i++) {
+                   if (enemies[i] > 0) {
+                       entities[tmp] = new Enemy(this, i, enemies[i]);
+                       System.out.println("x: " + enemies[i] + " y: " + i);
+                       tmp++;
+                       System.out.println("STILL AND STILL TRYING TO EXECUTE");
+                   }
+               }
+               executed = true;
+               NPCspawned = true;
+               System.out.println("EXECUTED");
+           }
+       }
 
     int i = 0;
 

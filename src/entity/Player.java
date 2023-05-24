@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.time.chrono.ThaiBuddhistChronology;
 
 //Spieler Klasse -> greift auf input management zu und dient zur spieler projektzierung
 public class Player extends Entity{
@@ -24,6 +25,7 @@ public class Player extends Entity{
     int speedNormal;
     int hasKey = 0;
     int x_, y_;
+    public BufferedImage win;
     boolean objSpawned = false;
     public Player(GamePanel g, Key k, TileManager tileM) {
         super(g);
@@ -40,7 +42,7 @@ public class Player extends Entity{
         collider = normalCollider;
     }
     public void setValues() {
-
+        gp.restarting = false;
         speedNormal = 6; //spieler geschwindigkeit
         speed = speedNormal; //tmp
         dir = "down"; //start richtung des Spielers: nach unten
@@ -81,7 +83,7 @@ public class Player extends Entity{
             dying4 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/dying4.png"));
             dying5 = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/dying5.png"));
 
-
+            win = ImageIO.read(getClass().getClassLoader().getResourceAsStream("player/win.png"));
 
             // tmp https://www.youtube.com/watch?v=wT9uNGzMEM4&list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq&index=4
 
@@ -100,6 +102,7 @@ public class Player extends Entity{
             x_ = x / gp.tile;
             y_ = y / gp.tile;
             System.out.println("been there, done that");
+            System.out.println("x: " + x_ + ", y: " + y_);
         }
     }
 
@@ -203,11 +206,8 @@ public class Player extends Entity{
             if(!gp.NPCspawned){
                 if(checkPos("x", x_ + 2) == 1 || checkPos("x", x_ - 2) == 1 || checkPos("y", y_ + 2) == 1 ||checkPos("x", y_ - 2) == 1) {
                     gp.setNPC();
-                }
-                if(checkPos("x", 12) == 1 && objSpawned == false) {
-                    gp.setObjects(12, 12, "KEY");
-                    gp.setObjects(14, 12, "DOOR");
-                    objSpawned = true;
+                    gp.setKey();
+                    gp.setDoor();
                 }
             }
 
@@ -270,6 +270,7 @@ public class Player extends Entity{
                     if(hasKey > 0) {
                         gp.objects[i] = null;
                         hasKey--;
+                        gp.GameWin();
                     }
                     System.out.println("Key"+hasKey);
                     break;

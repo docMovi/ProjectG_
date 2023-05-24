@@ -70,6 +70,9 @@ public class Key implements KeyListener {
         }if(code == KeyEvent.VK_N) {
             npressed = false;
         }
+        if(code == KeyEvent.VK_SPACE){
+            spacebar = false;
+        }
     }
 
     void mouse() {

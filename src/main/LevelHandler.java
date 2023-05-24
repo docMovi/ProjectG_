@@ -20,6 +20,8 @@ public class LevelHandler {
     public Tile[][] list;
     public Tile[][] list2;
     public int[] tmpenemies;
+    public int[] tmpkeys;
+    public int[] tmpdoors;
 
     public int x, y;
 
@@ -40,6 +42,8 @@ public class LevelHandler {
             int h = lvl.getHeight();
             list = new Tile[w] [h]; //index sehr dumm gewählt aber beste option i think
             tmpenemies = new int[w];
+            tmpkeys = new int[16];
+            tmpdoors = new int[16];
 
                 //loop durch das ganze bild um farben zu erkennen
                 for (int i = 0; i < h; i++) {
@@ -81,7 +85,25 @@ public class LevelHandler {
                             x = j * gp.tile;
                             y = i * gp.tile;
 
+                        }
+                        else if(r == 255 && g == 255 && b == 0){ //gelb -> spawnpoint key
+                            g2.drawImage(tileM.tiles[0].image, j * gp.tile, i * gp.tile, gp.tile, gp.tile,null);
+                            //add tile to list of tiles
+                            list[j][i] = new Tile(j, i, false); // COULD CAUSE LAG
+                            tmpkeys[j] = i;
 
+                            x = j * gp.tile;
+                            y = i * gp.tile;
+
+                        }
+                        else if(r == 0 && g == 255 && b == 0){ //grün -> spawnpoint tür
+                            g2.drawImage(tileM.tiles[5].image, j * gp.tile, i * gp.tile, gp.tile, gp.tile,null);
+                            //add tile to list of tiles
+                            list[j][i] = new Tile(j, i, false); // COULD CAUSE LAG
+                            tmpdoors[j] = i;
+
+                            x = j * gp.tile;
+                            y = i * gp.tile;
 
                         }
 
@@ -89,6 +111,9 @@ public class LevelHandler {
                 }
                 list2 = list;
                 gp.enemies = tmpenemies;
+                gp.keys = tmpkeys;
+                gp.doors = tmpdoors;
+
             }
 
 

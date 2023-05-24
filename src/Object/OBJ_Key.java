@@ -15,6 +15,8 @@ public class OBJ_Key extends SuperObject{
 
         collider = new Rectangle(x, y, gp.tile, gp.tile);
 
+
+
         name = "Key";
         collision = true;
 
@@ -25,7 +27,5 @@ public class OBJ_Key extends SuperObject{
         }
 
     }
-
-
 
 }

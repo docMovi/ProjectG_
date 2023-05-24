@@ -20,7 +20,6 @@ public class Camera {
 
     public void update(Entity player) {
 
-
         //makes camera "smooth"
         if(x < -player.x + 1920 / 2) {
             x += smooth;

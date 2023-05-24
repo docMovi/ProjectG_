@@ -34,10 +34,6 @@ public class GamePanel extends JPanel implements Runnable{
     public SuperObject objects[] = new SuperObject[5];
     public boolean NPCspawned;
 
-    //player pos
-    int playerx = 100;
-    int playery = 100;
-    int speed = 4;
     int FPS  = 60;
 
     public UI ui = new UI(this);
@@ -47,9 +43,15 @@ public class GamePanel extends JPanel implements Runnable{
     public final int playState = 1;
     public final int pauseState = 2;
     public final int gameOverState = 3;
+    public final int winState = 4;
+
+    //dinge im spiel gespeichert als array
     public int[] enemies = new int[32];
+    public int[] keys = new int[16];
+    public int[] doors = new int[16];
 
-
+    //FÜR RESTART
+    public boolean restarting = false;
 
     public GamePanel(){
         this.setBackground(Color.black);
@@ -72,7 +74,9 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread.start();
     }
 
-
+    public void GameWin(){
+        gameState = winState;
+    }
 
     @Override
     public void run() {
@@ -108,56 +112,72 @@ public class GamePanel extends JPanel implements Runnable{
     int tmp = 0;
     boolean executed = false;
     public void setNPC() {
-       System.out.println("TRYING TO EXECUTE");
        if(!executed) {
-           System.out.println("STILL TRYING TO EXECUTE");
                for (int i = 0; i < enemies.length; i++) {
                    if (enemies[i] > 0) {
                        entities[tmp] = new Enemy(this, i, enemies[i]);
-                       System.out.println("x: " + enemies[i] + " y: " + i);
                        tmp++;
-                       System.out.println("STILL AND STILL TRYING TO EXECUTE");
                    }
                }
                executed = true;
                NPCspawned = true;
-               System.out.println("EXECUTED");
            }
        }
 
-    int i = 0;
-
-    public void setObjects(int x, int y, String type) {
-        if(type == "KEY") {
-            objects[i] = new OBJ_Key(this, x, y);
-            i++;
-        }else if(type == "DOOR"){
-            objects[i] = new OBJ_Door(this, x, y);
-            i++;
+    int tmp2 = 0;
+    boolean executedKEY;
+    public void setKey() {
+        if(!executedKEY) {
+            for (int i = 0; i < keys.length; i++) {
+                if (keys[i] > 0) {
+                    objects[tmp2] = new OBJ_Key(this, i, keys[i]);
+                    tmp2++;
+                }
+            }
+            executedKEY= true;
         }
+    }
+
+    boolean executedDOOR;
+
+    public void setDoor() {
+        if(!executedDOOR)
+        for (int i = 0; i < doors.length; i++) {
+            if(doors[i] > 0) {
+                objects[tmp2] = new OBJ_Door(this, i, doors[i]);
+                tmp2++;
+            }
+        }
+        executedDOOR = true;
     }
 
     public void update() {
-        if(gameState == playState) {
-            player.update();
-            cam.update(player);
-            for(int i = 0; i <  entities.length; i++) {
-                if(entities[i] != null) {
-                    entities[i].update();
-                    entities[i].fakeUpdate();
+        if(!restarting) {
+            if(gameState == playState) {
+                player.update();
+                cam.update(player);
+                for(int i = 0; i <  entities.length; i++) {
+                    if(entities[i] != null) {
+                        entities[i].update();
+                        entities[i].fakeUpdate();
+                    }
+                }
+                for(int i = 0; i <  objects.length; i++) {
+                    if(objects[i] != null) {
+                        objects[i].update();
+                    }
+                }
+
+            }
+            if(gameState == gameOverState || gameState == winState) {
+                if(key.spacebar) {
+                    restarting = true;
+                    Restart();
                 }
             }
-            for(int i = 0; i <  objects.length; i++) {
-                if(objects[i] != null) {
-                    objects[i].update();
-                }
-            }
-
         }
-        if(gameState == pauseState) {
-
         }
-    }
+
 
     //gibt anderen klassen die fähigkeit sprites auf den bildschirm zu projezieren
     public void paintComponent(Graphics g){
@@ -224,6 +244,59 @@ public class GamePanel extends JPanel implements Runnable{
             sound.setFile(i);
             sound.play();
         }
+    }
+
+    boolean sceneClear;
+
+    public void Restart() {
+        ClearScene();
+        if(sceneClear) {
+            SetScene();
+        }
+    }
+
+    public void ClearScene() {
+        player = null;
+        lh = null;
+        ui = null;
+        cam = null;
+        tmp = 0;
+        tmp2 = 0;
+        executed = false;
+        executedDOOR = false;
+        executedKEY = false;
+        NPCspawned = false;
+
+        for(int i = 0; i < entities.length; i++) {
+            entities[i] = null;
+        }
+        for(int i = 0; i < objects.length; i++) {
+            objects[i] = null;
+        }
+        for(int i = 0; i < keys.length; i++) {
+            keys[i] = 0;
+        }
+        for(int i = 0; i < doors.length; i++) {
+            doors[i] = 0;
+        }
+        for(int i = 0; i < enemies.length; i++) {
+            enemies[i] = 0;
+        }
+        sceneClear = true;
+    }
+
+    public void SetScene() {
+        entities = new NPC[32];
+        objects = new SuperObject[32];
+        enemies = new int[16];
+        keys = new int[16];
+        doors = new int[16];
+        player = new Player(this, key, tm);
+        lh = new LevelHandler(this);
+        ui = new UI(this);
+        cam = new Camera( this, -player.x + 1920 / 2, -player.y + 1080 / 2);
+        gameState = playState;
+        sceneClear = false;
     }
 
 

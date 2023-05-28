@@ -17,6 +17,7 @@ public class SuperObject {
 
     public int colliderDefaultX = 0;
     public int ColliderDefaultY = 0;
+    String condition;
 
 
     public void draw(Graphics2D g2, GamePanel gp) {

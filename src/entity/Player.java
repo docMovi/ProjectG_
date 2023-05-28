@@ -134,6 +134,7 @@ public class Player extends Entity{
     }
 
 
+
     public void update() {
 
 
@@ -208,6 +209,8 @@ public class Player extends Entity{
                     gp.setNPC();
                     gp.setKey();
                     gp.setDoor();
+
+                    gp.ui.showMessage("Besiege alle Monster!", 5);
                 }
             }
 
@@ -268,7 +271,7 @@ public class Player extends Entity{
                     break;
                 case "Door":
                     if(hasKey > 0) {
-                        gp.objects[i] = null;
+                        gp.objects[i].image = gp.objects[i].image2;
                         hasKey--;
                         gp.GameWin();
                     }

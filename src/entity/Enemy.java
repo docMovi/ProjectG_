@@ -13,8 +13,9 @@ import java.io.IOException;
 //
 public class Enemy extends NPC {
     Player player;
+    int index;
 
-    public Enemy(GamePanel gp, int x, int y){
+    public Enemy(GamePanel gp, int x, int y, int i){
         super(gp);
         setValues();
 
@@ -22,6 +23,7 @@ public class Enemy extends NPC {
         this.y = y * gp.tile;
         NpcType = 3;
         hp = 3;
+        index = i;
     }
 
     private void setValues() {
@@ -70,7 +72,10 @@ public class Enemy extends NPC {
 
         if(invincible) {
             invincCounter++;
-            if(invincCounter > 90) {
+            if(!followingPlayer){
+                gp.pathfinder.FollowPlayer(this);
+            }
+            if(invincCounter > 60) {
                 invincible = false;
                 invincCounter = 0;
             }
@@ -96,6 +101,9 @@ public class Enemy extends NPC {
             }
             if(deathAnimCounter > 25) {
                 deathNum = 6;
+            }
+            if(deathAnimCounter > 30) {
+                 gp.destroyNPC(index);
             }
         }
 

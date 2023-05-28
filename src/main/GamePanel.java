@@ -30,7 +30,6 @@ public class GamePanel extends JPanel implements Runnable{
     int multiply = 5;
     //estimate value for tilesize on screen (for pixel art)
     public int tile = tileT * multiply;
-    public NPC entities[] = new NPC[4];
     public SuperObject objects[] = new SuperObject[5];
     public boolean NPCspawned;
 
@@ -46,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int winState = 4;
 
     //dinge im spiel gespeichert als array
+    public NPC entities[] = new NPC[32];
     public int[] enemies = new int[32];
     public int[] keys = new int[16];
     public int[] doors = new int[16];
@@ -115,7 +115,7 @@ public class GamePanel extends JPanel implements Runnable{
        if(!executed) {
                for (int i = 0; i < enemies.length; i++) {
                    if (enemies[i] > 0) {
-                       entities[tmp] = new Enemy(this, i, enemies[i]);
+                       entities[tmp] = new Enemy(this, i, enemies[i], tmp);
                        tmp++;
                    }
                }
@@ -124,13 +124,18 @@ public class GamePanel extends JPanel implements Runnable{
            }
        }
 
+
+    public void destroyNPC(int ind) {
+        entities[ind] = null;
+    }
+
     int tmp2 = 0;
     boolean executedKEY;
     public void setKey() {
         if(!executedKEY) {
             for (int i = 0; i < keys.length; i++) {
                 if (keys[i] > 0) {
-                    objects[tmp2] = new OBJ_Key(this, i, keys[i]);
+                    objects[tmp2] = new OBJ_Key(this, i, keys[i],"E");
                     tmp2++;
                 }
             }
@@ -149,6 +154,17 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
         executedDOOR = true;
+    }
+
+    public int deadEnemies(){
+        int r = 0;
+
+        for(int i = 0; i < entities.length; i++) {
+            if(entities[i] == null){
+                r++;
+            }
+        }
+        return r;
     }
 
     public void update() {

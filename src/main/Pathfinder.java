@@ -9,6 +9,7 @@ public class Pathfinder {
     public String dir_y;
     public boolean inColl;
     boolean top,bott,right, left;
+    boolean colliding;
     public Pathfinder(GamePanel gp) {
         this.gp = gp;
     }
@@ -21,6 +22,7 @@ public class Pathfinder {
         int radiusY = entity.y / gp.tile + radius;
         int minusRadiusY = entity.y / gp.tile - radius;
 
+        if(!colliding){
         if (gp.player.x / gp.tile <= radiusX && gp.player.x / gp.tile >= entity.x / gp.tile) { if(gp.player.y / gp.tile != entity.y / gp.tile ) {
             if (gp.player.y / gp.tile >= minusRadiusY && gp.player.y / gp.tile <= entity.y / gp.tile && gp.player.x / gp.tile != entity.x / gp.tile) { //TOP
                 gp.ui.showMessage("top right", 2);
@@ -52,7 +54,7 @@ public class Pathfinder {
 
         else if (gp.player.x / gp.tile >= minusRadiusX && gp.player.x / gp.tile <= entity.x / gp.tile) { //LEFT
 
-            if(gp.player.y / gp.tile != entity.y / gp.tile ) {
+            if (gp.player.y / gp.tile != entity.y / gp.tile) {
                 if (gp.player.y / gp.tile >= minusRadiusY && gp.player.y / gp.tile <= entity.y / gp.tile) { //TOP
                     gp.ui.showMessage("top left", 2);
                     dir_x = "left";
@@ -64,25 +66,26 @@ public class Pathfinder {
                     dir_y = "bottom";
                     inRadius = true;
                 }
-                if(gp.player.y / gp.tile == entity.y) {
+                if (gp.player.y / gp.tile == entity.y) {
                     dir_x = "left";
                     dir_y = "";
                     inRadius = true;
                 }
 
-                if ( gp.player.y / gp.tile <= radiusY && gp.player.y / gp.tile >= entity.y / gp.tile && gp.player.x / gp.tile == entity.x / gp.tile) {
+                if (gp.player.y / gp.tile <= radiusY && gp.player.y / gp.tile >= entity.y / gp.tile && gp.player.x / gp.tile == entity.x / gp.tile) {
                     dir_x = "";
                     dir_y = "down";
                     inRadius = true;
                 }
-                if(gp.player.y / gp.tile >= minusRadiusY && gp.player.y / gp.tile <= entity.y / gp.tile && gp.player.x / gp.tile == entity.x / gp.tile) {
+                if (gp.player.y / gp.tile >= minusRadiusY && gp.player.y / gp.tile <= entity.y / gp.tile && gp.player.x / gp.tile == entity.x / gp.tile) {
                     dir_x = "";
                     dir_y = "up";
                     inRadius = true;
-            }
+                }
 
 
             }
+        }
 
 
         }
@@ -135,30 +138,42 @@ public class Pathfinder {
     public void Colliding(Entity entity) {
         if (dir_y == "top") {
             if (gp.lh.list[entity.x / gp.tile][entity.y / gp.tile - entity.speed].coll == true) {
-                entity.stop = false;
+                entity.dir = dir_x;
+                colliding = true;
+                entity.collOn = false;
             } else {
                 entity.collOn = false;
+                colliding = false;
             }
         }
         if (dir_y == "down") {
             if (gp.lh.list[entity.x / gp.tile][entity.y / gp.tile + entity.speed].coll == true) {
-                entity.stop = false;
+                entity.dir = dir_x;
+                colliding = true;
+                entity.collOn = false;
             } else {
                 entity.collOn = false;
+                colliding = false;
             }
         }
         if (dir_x == "right") {
             if (gp.lh.list[entity.x / gp.tile + entity.speed][entity.y / gp.tile].coll == true) {
-                entity.stop = false;
+                entity.dir = dir_y;
+                colliding = true;
+                entity.collOn = false;
             } else {
                 entity.collOn = false;
+                colliding = false;
             }
         }
         if (dir_y == "left") {
             if (gp.lh.list[entity.x / gp.tile - entity.speed][entity.y / gp.tile].coll == true) {
-                entity.stop = false;
+                entity.dir = dir_y;
+                colliding = true;
+                entity.collOn = false;
             } else {
                 entity.collOn = false;
+                colliding = false;
             }
 
         }

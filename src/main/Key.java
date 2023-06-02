@@ -52,6 +52,9 @@ public class Key implements KeyListener {
         if(code == KeyEvent.VK_SPACE){
             spacebar = true;
         }
+        if(code == KeyEvent.VK_N) {
+            gp.gameState = gp.winState;
+        }
 
     }
 

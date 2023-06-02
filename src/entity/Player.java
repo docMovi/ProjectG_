@@ -267,7 +267,7 @@ public class Player extends Entity{
                 case"Key":
                     hasKey++;
                     gp.objects[i] = null;
-                    System.out.println("Key"+hasKey);
+                    gp.ui.showMessage("Gut gemacht! Suche nur noch den Ausgang und raus hier!", 3);
                     break;
                 case "Door":
                     if(hasKey > 0) {
@@ -275,7 +275,6 @@ public class Player extends Entity{
                         hasKey--;
                         gp.GameWin();
                     }
-                    System.out.println("Key"+hasKey);
                     break;
             }
 

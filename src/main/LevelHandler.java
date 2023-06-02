@@ -29,9 +29,9 @@ public class LevelHandler {
     int n = 0;
 
 
-    public LevelHandler(GamePanel gp) {
+    public LevelHandler(GamePanel gp, BufferedImage image) {
         loader = new BufferdImageLoader();
-        lvl = loader.loadImage("/level/level.png"); //bindet level image ein
+        lvl = image;
         this.gp = gp; //Zuweisung des GamePanels
         tileM = gp.tm;
     }
@@ -42,8 +42,8 @@ public class LevelHandler {
             int h = lvl.getHeight();
             list = new Tile[w] [h]; //index sehr dumm gewählt aber beste option i think
             tmpenemies = new int[w];
-            tmpkeys = new int[16];
-            tmpdoors = new int[16];
+            tmpkeys = new int[32];
+            tmpdoors = new int[32];
 
                 //loop durch das ganze bild um farben zu erkennen
                 for (int i = 0; i < h; i++) {

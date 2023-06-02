@@ -101,17 +101,15 @@ public class UI {
             g2.setColor(Color.white);
             g2.setFont(arial50);
             String text = "GESCHAFFT!";
-            String text2 = "[LEERTASTE] UM NEUZUSTARTEN!";
-            String text3 = "DANKE FÜR'S SPIELEN!";
+            String text2 = "[LEERTASTE] FÜR'S NÄCHSTE LEVEL!";
             int x = gp.tile * 10;
             int y = gp.tile * 4;
-            int x2 = gp.tile * 7;
+            int x2 = gp.tile * 6;
             int y2 = gp.tile * 10;
 
             g2.drawImage(img, 0,0,1920,1080, null);
             g2.drawImage(gp.player.win, x, y,4*gp.tile,4* gp.tile, null);
             g2.drawString(text, x, y);
-            g2.drawString(text3, x2, y + 5 * gp.tile);
             g2.drawString(text2, x2, y2);
         }
 

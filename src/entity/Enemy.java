@@ -52,6 +52,8 @@ public class Enemy extends NPC {
         System.out.println("Im an enemy on x: " + x + " and y: " + y);
     }
 
+    int timer = 0;
+    boolean _timer = false;
     @Override
     public void takeDamage() {
         gp.ui.showMessage("10", 1);
@@ -60,6 +62,11 @@ public class Enemy extends NPC {
             gp.playSE(2,this);
         }
         invincible = true;
+        _timer = true;
+    }
+
+    public void Free(){
+        collOn = false;
     }
 
     int deathAnimCounter;
@@ -78,6 +85,17 @@ public class Enemy extends NPC {
             if(invincCounter > 60) {
                 invincible = false;
                 invincCounter = 0;
+            }
+        }
+
+        if(_timer) {
+            if(timer >= 40) {
+                Free();
+                _timer = false;
+                timer = 0;
+            }
+            else {
+                timer++;
             }
         }
 

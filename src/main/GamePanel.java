@@ -4,6 +4,7 @@ import entity.Enemy;
 import entity.Entity;
 import entity.NPC;
 import entity.Player;
+import tile.BufferdImageLoader;
 import tile.TileManager;
 import Object.SuperObject;
 import Object.OBJ_Key;
@@ -12,6 +13,7 @@ import Object.OBJ_Door;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 
 //klasse die basically alles managed vor allem aber den screen und was darauf muss
 public class GamePanel extends JPanel implements Runnable{
@@ -20,7 +22,9 @@ public class GamePanel extends JPanel implements Runnable{
     TileManager tm = new TileManager(this);
 
     public Player player = new Player(this, key, tm);
-    public LevelHandler lh = new LevelHandler(this);;
+    public BufferdImageLoader loader = new BufferdImageLoader();
+    BufferedImage img[]  = new BufferedImage[16]; //bindet level image ein
+    public LevelHandler lh = new LevelHandler(this, loader.loadImage("/level/level.png"));
     public CollisionDetector CDetector = new CollisionDetector(this, tm);
     public Pathfinder pathfinder = new Pathfinder(this);
     Camera cam = new Camera(this, -player.x + 1920 / 2, -player.y + 1080 / 2);
@@ -50,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable{
     public int[] keys = new int[16];
     public int[] doors = new int[16];
 
+    int currentlvl;
     //FÜR RESTART
     public boolean restarting = false;
 
@@ -67,6 +72,10 @@ public class GamePanel extends JPanel implements Runnable{
         gameState = playState;
         ui.showMessage("Drücke W, A, S oder D um dich zu bewegen!", 5);
         playMusic(0);
+        img[0] = loader.loadImage("/level/level.png");
+        img[1] = loader.loadImage("/level/level2.png");
+        img[2] = loader.loadImage("/level/level3.png");
+        img[3] = loader.loadImage("/level/level4.png");
     }
 
     public void startGameThread() {
@@ -167,6 +176,8 @@ public class GamePanel extends JPanel implements Runnable{
         return r;
     }
 
+    boolean executedLVL = false;
+
     public void update() {
         if(!restarting) {
             if(gameState == playState) {
@@ -185,12 +196,20 @@ public class GamePanel extends JPanel implements Runnable{
                 }
 
             }
-            if(gameState == gameOverState || gameState == winState) {
+            if(gameState == gameOverState) {
                 if(key.spacebar) {
                     restarting = true;
-                    Restart();
+                    Restart(false);
                 }
             }
+            if(gameState == winState)
+            {
+                if(key.spacebar) {
+                    restarting = true;
+                    Restart(true);
+                }
+            }
+            System.out.println(currentlvl);
         }
         }
 
@@ -264,13 +283,26 @@ public class GamePanel extends JPanel implements Runnable{
 
     boolean sceneClear;
 
-    public void Restart() {
+    public void Restart(boolean didWin) {
+        if(didWin) {
+            if (!executedLVL){
+                saveValues();
+                executedLVL = true;
+            }
+        }
         ClearScene();
         if(sceneClear) {
             SetScene();
         }
     }
 
+    int health;
+    int points; //tmp
+    public void saveValues() {
+        health = player.hp;
+        currentlvl++;
+
+    }
     public void ClearScene() {
         player = null;
         lh = null;
@@ -281,6 +313,7 @@ public class GamePanel extends JPanel implements Runnable{
         executed = false;
         executedDOOR = false;
         executedKEY = false;
+        executedLVL = false;
         NPCspawned = false;
 
         for(int i = 0; i < entities.length; i++) {
@@ -308,8 +341,9 @@ public class GamePanel extends JPanel implements Runnable{
         keys = new int[16];
         doors = new int[16];
         player = new Player(this, key, tm);
-        lh = new LevelHandler(this);
+        lh = new LevelHandler(this, img[currentlvl]);
         ui = new UI(this);
+        player.hp = health;
         cam = new Camera( this, -player.x + 1920 / 2, -player.y + 1080 / 2);
         gameState = playState;
         sceneClear = false;

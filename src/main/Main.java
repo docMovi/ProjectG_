@@ -9,7 +9,7 @@ public class Main extends JFrame {
     public static void main(String[] args) {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setTitle("69");
+        window.setTitle("PROJECTG_");
 
         GamePanel gp = new GamePanel();
         window.add(gp);

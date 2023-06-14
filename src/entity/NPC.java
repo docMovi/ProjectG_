@@ -156,6 +156,7 @@ public class NPC extends Entity{
                   } else {
                       gp.pathfinder.Colliding(this);
                       collOn = false;
+
                   }
 
               }

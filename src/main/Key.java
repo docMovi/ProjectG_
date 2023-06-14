@@ -51,6 +51,11 @@ public class Key implements KeyListener {
         }
         if(code == KeyEvent.VK_SPACE){
             spacebar = true;
+            if(gp.gameState == gp.menuState) {
+                System.out.println("let's start!");
+                gp.gameState = gp.playState;
+                gp.ui.showMessage("Drücke W, A, S oder D um dich zu bewegen!", 5);
+            }
         }
         if(code == KeyEvent.VK_N) {
             gp.gameState = gp.winState;

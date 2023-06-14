@@ -311,84 +311,83 @@ public class Player extends Entity{
         //hier wird der spieler als bild erstellt
         //spieler bild je nach richtung ändern
 
-        BufferedImage image = null;
+        if (gp.gameState != gp.menuState) {
+            BufferedImage image = null;
 
-        if(dir == "up") {
-            if(attacking == false){
-                if(num == 1) {
-                    image = up1;
+            if (dir == "up") {
+                if (attacking == false) {
+                    if (num == 1) {
+                        image = up1;
+                    } else if (num == 2) {
+                        image = up2;
+                    }
+                } else {
+                    if (attNum == 1) {
+                        image = attUp1;
+                    } else if (attNum == 2) {
+                        image = attUp2;
+                    } else if (attNum == 3) {
+                        image = attUp3;
+                    }
                 }
-                else if (num == 2) {
-                    image = up2;
+
+            } else if (dir == "down") {
+                if (attacking == false) {
+                    if (num == 1) {
+                        image = d1;
+                    } else if (num == 2) {
+                        image = d2;
+                    }
+                } else {
+                    if (attNum == 1) {
+                        image = attD1;
+                    } else if (attNum == 2) {
+                        image = attD2;
+                    } else if (attNum == 3) {
+                        image = attD3;
+                    }
                 }
-            } else {
-                if(attNum == 1) {
-                    image = attUp1;
-                } else if(attNum == 2) {
-                    image = attUp2;
-                } else if (attNum == 3) {
-                    image = attUp3;
+            } else if (dir == "right") {
+                if (attacking == false) {
+                    if (num == 1) {
+                        image = r1;
+                    } else if (num == 2) {
+                        image = r2;
+                    }
+                } else {
+                    if (attNum == 1) {
+                        image = attR1;
+                    } else if (attNum == 2) {
+                        image = attR2;
+                    } else if (attNum == 3) {
+                        image = attR3;
+                    }
+                }
+            } else if (dir == "left") {
+                if (attacking == false) {
+                    if (num == 1) {
+                        image = l1;
+                    } else if (num == 2) {
+                        image = l2;
+                    }
+                } else {
+                    if (attNum == 1) {
+                        image = attL1;
+                    } else if (attNum == 2) {
+                        image = attL2;
+                    } else if (attNum == 3) {
+                        image = attL3;
+                    }
                 }
             }
 
-        }else if(dir == "down") {
-            if(attacking == false){
-                if(num == 1) {
-                    image = d1;
-                }
-                else if (num == 2) {
-                    image = d2;
-                }
-            } else {
-                if(attNum == 1) {
-                    image = attD1;
-                } else if(attNum == 2) {
-                    image = attD2;
-                } else if (attNum == 3) {
-                    image = attD3;
-                }
+
+            if (invincible) {
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
             }
-        }else if(dir == "right") {
-            if(attacking == false){
-                if(num == 1) {
-                    image = r1;
-                }
-                else if (num == 2) {
-                    image = r2;
-                }
-            } else {
-                if(attNum == 1) {
-                    image = attR1;
-                } else if(attNum == 2) {
-                    image = attR2;
-                } else if (attNum == 3) {
-                    image = attR3;
-                }
-            }
-        }else if(dir == "left") {
-            if(attacking == false){
-                if(num == 1) {
-                    image = l1;
-                }
-                else if (num == 2) {
-                    image = l2;
-                }
-            } else {
-                if(attNum == 1) {
-                    image = attL1;
-                } else if(attNum == 2) {
-                    image = attL2;
-                } else if (attNum == 3) {
-                    image = attL3;
-                }
-            }
+            g2.drawImage(image, x, y, gp.tile, gp.tile, null);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+
         }
-
-        if(invincible) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
-        }
-        g2.drawImage(image, x, y, gp.tile, gp.tile, null);
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-
     }
 }

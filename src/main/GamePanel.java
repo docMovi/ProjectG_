@@ -43,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     //states vom game
     public int gameState;
+    public final int menuState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int gameOverState = 3;
@@ -60,7 +61,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     public GamePanel(){
         this.setBackground(Color.black);
-        //this.setBackground(Color.decode("#74ba67")); //nimmt hex code und wandelt ihn in RGB farbe um
+        //this.setBackground(Color.decode("#4B88A2")); //nimmt hex code und wandelt ihn in RGB farbe um //blau
+        this.setBackground(Color.decode("#252627")); //nimmt hex code und wandelt ihn in RGB farbe um //schwarz
+        //this.setBackground(Color.decode("#8A7E72")); //nimmt hex code und wandelt ihn in RGB farbe um //braun
         this.setPreferredSize(new Dimension(512, 328));
         this.addKeyListener(key);
         this.setFocusable(true);
@@ -69,8 +72,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void Start() {
-        gameState = playState;
-        ui.showMessage("Drücke W, A, S oder D um dich zu bewegen!", 5);
+        gameState = menuState;
         playMusic(0);
         img[0] = loader.loadImage("/level/level.png");
         img[1] = loader.loadImage("/level/level2.png");
@@ -209,7 +211,6 @@ public class GamePanel extends JPanel implements Runnable{
                     Restart(true);
                 }
             }
-            System.out.println(currentlvl);
         }
         }
 

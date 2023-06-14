@@ -19,6 +19,7 @@ public class UI {
     int messageTimer = 0;
     int time;
     BufferedImage img;
+    BufferedImage imgMain;
     public UI(GamePanel gp) {
         this.gp = gp;
         arial30 = new Font("Arial", Font.BOLD, 30);
@@ -28,6 +29,7 @@ public class UI {
 
         try {
             img = ImageIO.read(getClass().getClassLoader().getResourceAsStream("ui/gameover.png"));
+            imgMain = ImageIO.read(getClass().getClassLoader().getResourceAsStream("ui/projectG.png"));
         } catch (IOException e) {
         }
     }
@@ -42,10 +44,25 @@ public class UI {
         this.g2 = g2;
         g2.setFont(arial40);
         g2.setColor(Color.lightGray);
-        g2.drawString("health: " + gp.player.hp, 50, 30);
-        g2.drawString("x: " + gp.player.x / gp.tile, 50, 70);
-        g2.drawString("invincible: " + gp.player.invincCounter, 50, 120);
+        if(gp.gameState != gp.menuState) {
+            g2.drawString("health: " + gp.player.hp, 50, 30);
+            g2.drawString("x: " + gp.player.x / gp.tile, 50, 70);
+            g2.drawString("invincible: " + gp.player.invincCounter, 50, 120);
+        }
 
+
+        if(gp.gameState == gp.menuState){
+            //menu screen -> am anfang
+            g2.setColor(Color.white);
+            g2.setFont(arial50);
+            String text = "[LEERTASTE] UM ZU BEGINNEN!";
+
+            int x = gp.tile * 7;
+            int y = gp.tile * 10;
+
+            g2.drawImage(imgMain, 5* gp.tile, 3*gp.tile, 14* gp.tile, 4* gp.tile, null);
+            g2.drawString(text, x, y);
+        }else {
 
         //message system
         if(messageOn) {
@@ -61,10 +78,14 @@ public class UI {
             }
 
             if(gp.gameState == gp.playState){
+
+
                 //alles was nur während des spiels gezeigt werden soll
             }
 
         }
+
+
 
         if(gp.gameState == gp.pauseState){
             //alles was nur während das spiel pausiert is gezeigt werden soll
@@ -111,8 +132,11 @@ public class UI {
             g2.drawImage(gp.player.win, x, y,4*gp.tile,4* gp.tile, null);
             g2.drawString(text, x, y);
             g2.drawString(text2, x2, y2);
+
         }
 
+
+        }
     }
 
 }

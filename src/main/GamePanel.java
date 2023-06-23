@@ -48,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int pauseState = 2;
     public final int gameOverState = 3;
     public final int winState = 4;
+    public final int finalState = 5;
 
     //dinge im spiel gespeichert als array
     public NPC entities[] = new NPC[32];
@@ -78,6 +79,9 @@ public class GamePanel extends JPanel implements Runnable{
         img[1] = loader.loadImage("/level/level2.png");
         img[2] = loader.loadImage("/level/level3.png");
         img[3] = loader.loadImage("/level/level4.png");
+        img[4] = loader.loadImage("/level/level5.png");
+        img[5] = loader.loadImage("/level/level6.png");
+        img[6] = loader.loadImage("/level/level7.png");
     }
 
     public void startGameThread() {
@@ -182,6 +186,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update() {
         if(!restarting) {
+            //System.out.println(deadEnemies() + " out of " + entities.length); //temp (debug)
             if(gameState == playState) {
                 player.update();
                 cam.update(player);
@@ -284,12 +289,34 @@ public class GamePanel extends JPanel implements Runnable{
 
     boolean sceneClear;
 
+    public int availableLevels() {
+        int ret = 0;
+
+        for(int i = 0; i < img.length; i++) {
+            if(img[i] != null) {
+                ret++;
+            }
+        }
+        System.out.println(currentlvl + 2 + " out of " + ret);
+        return ret;
+    }
     public void Restart(boolean didWin) {
+        if(availableLevels() == currentlvl + 1) {
+            gameState = finalState;
+            return;
+        }
         if(didWin) {
             if (!executedLVL){
                 saveValues();
                 executedLVL = true;
             }
+        }
+        if(!didWin) {
+            if(!executedLVL) {
+                resetValues();
+                executedLVL = true;
+            }
+
         }
         ClearScene();
         if(sceneClear) {
@@ -303,6 +330,9 @@ public class GamePanel extends JPanel implements Runnable{
         health = player.hp;
         currentlvl++;
 
+    }
+    public void resetValues() {
+        health = 3;
     }
     public void ClearScene() {
         player = null;

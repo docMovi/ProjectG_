@@ -346,6 +346,7 @@ public class GamePanel extends JPanel implements Runnable{
         executedKEY = false;
         executedLVL = false;
         NPCspawned = false;
+        //currentlvl = 0; //level reset
 
         for(int i = 0; i < entities.length; i++) {
             entities[i] = null;

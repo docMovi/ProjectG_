@@ -1,6 +1,7 @@
 package entity;
 
 import main.GamePanel;
+import tile.Animation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,8 +11,10 @@ public class Entity {
    //main class for every entity in the game
 
     public GamePanel gp;
+    public BufferedImage currentFrame;
     public int x, y; //x und y koordinate des entities
     public int speed; //bewegungsgeschwindigkeit des entities
+    int walkFrames = 2;
     public int hp; //lebensanzeige des entities
     public boolean dead;
     public BufferedImage up1, up2, d1, d2, l1, l2, r1, r2; //bilder für jede richtung
@@ -32,6 +35,11 @@ public class Entity {
     public boolean attacking = false;
     public boolean stop = false;
     public boolean followingPlayer;
+
+    //ANIM
+    Animation walkingUp, walkingD, walkingR, walkingL;
+    BufferedImage[] animUPIMG = new BufferedImage[walkFrames], animDIMG = new BufferedImage[walkFrames], animRIMG = new BufferedImage[walkFrames], animLIMG = new BufferedImage[walkFrames];
+
     public void fakeUpdate() {
 
     }

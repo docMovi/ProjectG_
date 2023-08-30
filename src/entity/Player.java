@@ -3,6 +3,7 @@ package entity;
 import main.GamePanel;
 import main.Key;
 import main.Pathfinder;
+import tile.Animation;
 import tile.TileManager;
 
 import javax.imageio.ImageIO;
@@ -27,6 +28,11 @@ public class Player extends Entity{
     int x_, y_;
     public BufferedImage win;
     boolean objSpawned = false;
+
+    //ANIM
+    Animation attackUpAnim, attackDAnim, attackRAnim, attackLAnim;
+    BufferedImage[] attackUpIMG = new BufferedImage[3], attackDIMG = new BufferedImage[3], attackRIMG = new BufferedImage[3], attackLIMG = new BufferedImage[3];
+
     public Player(GamePanel g, Key k, TileManager tileM) {
         super(g);
         this.gp = g;
@@ -36,20 +42,52 @@ public class Player extends Entity{
 
         setValues();
         getImage();
+        setAnim();
 
         normalCollider = new Rectangle(x + 20, y + 20, 45, 50);
         attackCollider = new Rectangle(x - 20, y - 25, 140, 140);
         collider = normalCollider;
     }
     public void setValues() {
+        currentFrame = up1;
         gp.restarting = false;
         speedNormal = 6; //spieler geschwindigkeit
+        walkFrames = 2;
         speed = speedNormal; //tmp
         dir = "down"; //start richtung des Spielers: nach unten
         hp = 3;
         //sprintSpeed = 8; //tmp falls wir sprint einbauen sollten
     }
 
+    public void setAnim(){
+        animUPIMG[0] = up1; animUPIMG[1] = up2;
+        walkingUp = new Animation(this, animUPIMG, 10);
+        animDIMG[0] = d1; animDIMG[1] = d2;
+        walkingD = new Animation(this, animDIMG, 10);
+        animRIMG[0] = r1; animRIMG[1] = r2;
+        walkingR = new Animation(this, animRIMG, 10);
+        animLIMG[0] = l1; animLIMG[1] = l2;
+        walkingL = new Animation(this, animLIMG, 10);
+
+        attackUpIMG[0] = attUp1;
+        attackUpIMG[1] = attUp2;
+        attackUpIMG[2] = attUp3;
+        attackUpAnim = new Animation(this, attackUpIMG, 5, up1);
+        attackDIMG[0] = attD1;
+        attackDIMG[1] = attD2;
+        attackDIMG[2] = attD3;
+        attackDAnim = new Animation(this, attackDIMG, 5, d1);
+        attackRIMG[0] = attR1;
+        attackRIMG[1] = attR2;
+        attackRIMG[2] = attR3;
+        attackRAnim = new Animation(this, attackRIMG, 5, r1);
+        attackLIMG[0] = attL1;
+        attackLIMG[1] = attL2;
+        attackLIMG[2] = attL3;
+        attackLAnim = new Animation(this, attackLIMG, 5, l1);
+
+        currentFrame = d1;
+    }
 
 
     public void getImage() {
@@ -173,16 +211,20 @@ public class Player extends Entity{
 
                     if (dir == "up") {
                         y -= speed;
+                        currentFrame = walkingUp.play();
                     }
 
                     if (dir == "down") {
                         y += speed;
+                        currentFrame = walkingD.play();
                     }
                     if (dir == "right") {
                         x += speed;
+                        currentFrame = walkingR.play();
                     }
                     if (dir == "left") {
                         x -= speed;
+                        currentFrame = walkingL.play();
                     }
 
                 }
@@ -281,25 +323,18 @@ public class Player extends Entity{
         }
     }
 
-    int attCounter = 0;
     public void attacking() {
-        attCounter++;
-        collider = attackCollider;
+        if(dir == "up") {currentFrame = attackUpAnim.playWithBuffer(2, 10);}
+        else if(dir == "down") {currentFrame = attackDAnim.playWithBuffer(2, 10);}
+        else if(dir == "right") {currentFrame = attackRAnim.playWithBuffer(2, 10);}
+        else if(dir == "left") {currentFrame = attackLAnim.playWithBuffer(2, 10);}
 
-        if(attCounter <= 5) {
-            attNum = 1;
-        }
-        if(attCounter > 5 && attCounter <= 15){
-            attNum = 2;
-        }
-        if(attCounter > 12 && attCounter <= 20) {
-            attNum = 3;
-        }
-        if(attCounter > 20) {
-            attNum = 1;
+        if(attackUpAnim.isAnimRunning() || attackDAnim.isAnimRunning() || attackRAnim.isAnimRunning() || attackLAnim.isAnimRunning()){
+            attacking = true;
+            collider = attackCollider;
+        } else {
             attacking = false;
             collider = normalCollider;
-            attCounter = 0;
         }
     }
 
@@ -312,80 +347,10 @@ public class Player extends Entity{
         //spieler bild je nach richtung ändern
 
         if (gp.gameState != gp.menuState) {
-            BufferedImage image = null;
-
-            if (dir == "up") {
-                if (attacking == false) {
-                    if (num == 1) {
-                        image = up1;
-                    } else if (num == 2) {
-                        image = up2;
-                    }
-                } else {
-                    if (attNum == 1) {
-                        image = attUp1;
-                    } else if (attNum == 2) {
-                        image = attUp2;
-                    } else if (attNum == 3) {
-                        image = attUp3;
-                    }
-                }
-
-            } else if (dir == "down") {
-                if (attacking == false) {
-                    if (num == 1) {
-                        image = d1;
-                    } else if (num == 2) {
-                        image = d2;
-                    }
-                } else {
-                    if (attNum == 1) {
-                        image = attD1;
-                    } else if (attNum == 2) {
-                        image = attD2;
-                    } else if (attNum == 3) {
-                        image = attD3;
-                    }
-                }
-            } else if (dir == "right") {
-                if (attacking == false) {
-                    if (num == 1) {
-                        image = r1;
-                    } else if (num == 2) {
-                        image = r2;
-                    }
-                } else {
-                    if (attNum == 1) {
-                        image = attR1;
-                    } else if (attNum == 2) {
-                        image = attR2;
-                    } else if (attNum == 3) {
-                        image = attR3;
-                    }
-                }
-            } else if (dir == "left") {
-                if (attacking == false) {
-                    if (num == 1) {
-                        image = l1;
-                    } else if (num == 2) {
-                        image = l2;
-                    }
-                } else {
-                    if (attNum == 1) {
-                        image = attL1;
-                    } else if (attNum == 2) {
-                        image = attL2;
-                    } else if (attNum == 3) {
-                        image = attL3;
-                    }
-                }
-            }
-
-
             if (invincible) {
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
             }
-            g2.drawImage(image, x, y, gp.tile, gp.tile, null);
+            g2.drawImage(currentFrame, x, y, gp.tile, gp.tile, null);
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
         }

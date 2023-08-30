@@ -1,6 +1,7 @@
 package main;
 
 import tile.BufferdImageLoader;
+import tile.ColorPicker;
 import tile.Tile;
 import tile.TileManager;
 
@@ -23,10 +24,15 @@ public class LevelHandler {
     public int[] tmpkeys;
     public int[] tmpdoors;
 
+    public Color[] colors = new Color[64];
+    public int tiles[] = new int[64];
+
     public int x, y;
 
     boolean executed = false;
     int n = 0;
+
+    ColorPicker coP = new ColorPicker(this);
 
 
     public LevelHandler(GamePanel gp, BufferedImage image) {
@@ -34,6 +40,18 @@ public class LevelHandler {
         lvl = image;
         this.gp = gp; //Zuweisung des GamePanels
         tileM = gp.tm;
+    }
+
+    int tmp = 0;
+
+    public void newColor(String c, int t) {
+        if(colors[tmp] == null && tiles[tmp] == 0) {
+            colors[tmp] = Color.decode(c);
+            tiles[tmp] = t;
+            tmp++;
+        } else {
+            System.out.println("Error LHNC01");
+        }
     }
 
     public void draw(Graphics2D g2) {
@@ -56,16 +74,19 @@ public class LevelHandler {
                     int b = (px) & 0xff;    //bit-related
 
 
-                    if (r == 255 && g == 255 && b == 255) { // white --> wall
-                        g2.drawImage(tileM.tiles[5].image, j * gp.tile, i * gp.tile, gp.tile, gp.tile, null);
-                        //add tile to list of tiles
-                        list[j][i] = new Tile(j, i, true); // COULD CAUSE LAG
-                    } else if (r == 0 && g == 0 && b == 0) { //black --> grass
-                        g2.drawImage(tileM.tiles[0].image, j * gp.tile, i * gp.tile, gp.tile, gp.tile, null);
-                        //add tile to list of tiles
-                        list[j][i] = new Tile(j, i, false); // COULD CAUSE LAG
+                    for(int t = 0; t < colors.length; t++) {
+                        if(colors[t] != null) {
+                            if (r == colors[t].getRed() && g == colors[t].getGreen() && b == colors[t].getBlue()) {
+                                g2.drawImage(tileM.tiles[tiles[t]].image, j * gp.tile, i * gp.tile, gp.tile, gp.tile, null);
+                                //add tile to list of tiles
+                                list[j][i] = new Tile(j, i, tileM.tiles[tiles[t]].coll); // COULD CAUSE LAG
+                        }
+                    }
 
-                    } else if (r == 0 && g == 0 && b == 255) { //blau -> spawnpoint player
+
+
+
+                    } if (r == 0 && g == 0 && b == 255) { //blau -> spawnpoint player
                         g2.drawImage(tileM.tiles[0].image, j * gp.tile, i * gp.tile, gp.tile, gp.tile, null);
                         //add tile to list of tiles
                         list[j][i] = new Tile(j, i, false); // COULD CAUSE LAG

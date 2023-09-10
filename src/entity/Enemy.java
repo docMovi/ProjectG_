@@ -2,6 +2,7 @@ package entity;
 
 
 import main.GamePanel;
+import tile.Animation;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,10 +15,12 @@ import java.io.IOException;
 public class Enemy extends NPC {
     Player player;
     int index;
+    BufferedImage[] dyingIMG = new BufferedImage[5];
 
     public Enemy(GamePanel gp, int x, int y, int i){
         super(gp);
         setValues();
+        setAnim();
 
         this.x = x * gp.tile;
         this.y = y * gp.tile;
@@ -50,6 +53,23 @@ public class Enemy extends NPC {
         }
 
         System.out.println("Im an enemy on x: " + x + " and y: " + y);
+    }
+
+    void setAnim() {
+        walkFrames = 2;
+        animUPIMG[0] = up1; animUPIMG[1] = up2;
+        walkingUp = new Animation(this, animUPIMG, 10);
+        animDIMG[0] = d1; animDIMG[1] = d2;
+        walkingD = new Animation(this, animDIMG, 10);
+        animRIMG[0] = r1; animRIMG[1] = r2;
+        walkingR = new Animation(this, animRIMG, 10);
+        animLIMG[0] = l1; animLIMG[1] = l2;
+        walkingL = new Animation(this, animLIMG, 10);
+
+        dyingIMG[0] = dying1; dyingIMG[1] = dying2; dyingIMG[2] = dying3; dyingIMG[3] = dying4; dyingIMG[4] = dying5;
+        animDie = new Animation(this, dyingIMG, 5);
+
+        currentFrame = d1;
     }
 
     int timer = 0;
@@ -99,29 +119,19 @@ public class Enemy extends NPC {
             }
         }
 
-        if(dead) {
-            deathAnimCounter++;
+        boolean played = false;
 
-            if(deathAnimCounter < 5) {
-                deathNum = 1;
+        if(dead) {
+                Dying();
             }
-            if(deathAnimCounter > 5 && deathAnimCounter < 10) {
-                deathNum = 2;
-            }
-            if(deathAnimCounter > 10 && deathAnimCounter < 15) {
-                deathNum = 3;
-            }
-            if(deathAnimCounter > 15 && deathAnimCounter < 20) {
-                deathNum = 4;
-            }
-            if(deathAnimCounter > 20 && deathAnimCounter < 25) {
-                deathNum = 5;
-            }
-            if(deathAnimCounter > 25) {
-                deathNum = 6;
-            }
-            if(deathAnimCounter > 30) {
-                 gp.destroyNPC(index);
+    }
+
+
+        void Dying() {
+            currentFrame = animDie.play();
+            if(!animDie.isAnimRunning()) {
+                dead = false;
+                gp.destroyNPC(index);
             }
         }
 
@@ -129,7 +139,3 @@ public class Enemy extends NPC {
     }
 
 
-
-
-
-}

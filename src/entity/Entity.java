@@ -38,8 +38,8 @@ public class Entity {
 
     //ANIM
     Animation walkingUp, walkingD, walkingR, walkingL;
+    Animation animDie;
     BufferedImage[] animUPIMG = new BufferedImage[walkFrames], animDIMG = new BufferedImage[walkFrames], animRIMG = new BufferedImage[walkFrames], animLIMG = new BufferedImage[walkFrames];
-
     public void fakeUpdate() {
 
     }

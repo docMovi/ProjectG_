@@ -137,16 +137,19 @@ public class NPC extends Entity{
               if (collOn == false) {
                   if (dir == "up") {
                       y -= speed;
+                      currentFrame = walkingUp.play();
                   }
-
                   if (dir == "down") {
                       y += speed;
+                      currentFrame = walkingD.play();
                   }
                   if (dir == "right") {
                       x += speed;
+                      currentFrame = walkingR.play();
                   }
                   if (dir == "left") {
                       x -= speed;
+                      currentFrame = walkingL.play();
                   }
               } else {
                   if(!stop){
@@ -186,69 +189,16 @@ public class NPC extends Entity{
 
         public void draw(Graphics2D g2) {
 
-        BufferedImage image = null;
-
-        if(dead) {
-            if(deathNum == 1) {
-                image = dying1;
-            }
-            else if (deathNum == 2){
-                image = dying2;
-            }
-            else if (deathNum == 3){
-                image = dying3;
-            }
-            else if (deathNum == 4){
-                image = dying4;
-            }
-            else if (deathNum == 5){
-                image = dying5;
-            }
-
-           if(deathNum < 6) { g2.drawImage(image, x, y, gp.tile, gp.tile, null);}
-        }
-
-        if(!dead) {
             //hier wird der npc als bild erstellt
-            //spieler npc je nach richtung ändern
-            if(dir == "up") {
-                if(num == 1) {
-                    image = up1;
-                }
-                else if (num == 2) {
-                    image = up2;
-                }
-            }else if(dir == "down") {
-                if(num == 1) {
-                    image = d1;
-                }
-                else if (num == 2) {
-                    image = d2;
-                }
-            }else if(dir == "right") {
-                if(num == 1) {
-                    image = r1;
-                }
-                else if (num == 2) {
-                    image = r2;
-                }
-            }else if(dir == "left") {
-                if(num == 1) {
-                    image = l1;
-                }
-                else if (num == 2) {
-                    image = l2;
-                }
-            }
+
 
             if(invincible) {
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
             }
-            g2.drawImage(image, x, y, gp.tile, gp.tile, null);
+            g2.drawImage(currentFrame, x, y, gp.tile, gp.tile, null);
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
           }
-        }
 
 
 }

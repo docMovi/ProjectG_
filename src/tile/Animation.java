@@ -27,6 +27,7 @@ public class Animation {
     }
 
     public BufferedImage play(){
+        animRunning = true;
         if(m < images.length * time){
             if(m < j * time && m >= (j - 1) * time){
                 frame = images[j - 1];
@@ -36,45 +37,43 @@ public class Animation {
             }
 
         }else if(m >= images.length * time){
+            stop();
             m = 0;
             j = 1;
+            animRunning = false;
         }
 
-        animRunning = true;
 
         return frame;
     }
 
     public BufferedImage playWithBuffer(int bufferedFrame, int newTime){
-            animRunning = true;
-            if(m < (images.length - 1)  * time + newTime) {
-                if (m < j * time && m >= (j - 1) * time && j < bufferedFrame) {
+        animRunning = true;
+        if(m < (images.length - 1)  * time + newTime) {
+            if (m < j * time && m >= (j - 1) * time && j < bufferedFrame) {
+                frame = images[j - 1];
+                m++;
+            }else if(m < (j + 1) * time && m >= j * time && j > bufferedFrame) {
+                frame = images[j - 1];
+                m++;
+            }
+            else if (j == bufferedFrame) {
+                if (m < ((j - 1)* time) + newTime) {
                     frame = images[j - 1];
                     m++;
-                }else if(m < (j + 1) * time && m >= j * time && j > bufferedFrame) {
-                    frame = images[j - 1];
-                    m++;
-                }
-                else if (j == bufferedFrame) {
-                    if (m < ((j - 1)* time) + newTime) {
-                        frame = images[j - 1];
-                        m++;
-                    } else {
-                        j = bufferedFrame + 1;
-                        System.out.println("j: " + j);
-                    }
                 } else {
-                    j++;
-                    System.out.println("j: " + j);
+                    j = bufferedFrame + 1;
                 }
-                System.out.println("m: " + m);
+            } else {
+                j++;
             }
-            else if(m >= (images.length - 1)  * time + newTime){
-                m = 0;
-                j = 1;
-                animRunning = false;
-                stop();
-            }
+        }
+        else if(m >= (images.length - 1)  * time + newTime){
+            stop();
+            m = 0;
+            j = 1;
+            animRunning = false;
+        }
 
         return frame;
     }
@@ -88,4 +87,5 @@ public class Animation {
     public boolean isAnimRunning() {
         return animRunning;
     }
+
 }
